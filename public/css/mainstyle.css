@@ -1,0 +1,80 @@
+:root{
+
+	--color00: #FFEDB7;
+	--color01: #FFE79C;
+	--color02: #FFDF7B;
+	--color03: #BFAD75;
+	--color04: #A68728;
+	--color05: #652;
+	--color10: #FFE1B7;
+	--color11: #FFD59C;
+	--color12: #FFC87B;
+	--color13: #BFA075;
+	--color14: #A67128;
+	--color20: #FFF9B7;
+	--color21: #FFF79C;
+	--color22: #FFF47B;
+	--circle-color: red;
+	/* for caller: var(--colorXY) */
+}
+
+body{
+	background:url("../img/bg.jpg") no-repeat;
+	background-size:cover;
+	background-attachment:fixed;
+}
+
+div{
+	/*background: var(--color10);*/
+	/*background: rgba(255,128,128,0.2);
+	 for debugging */
+}
+
+/* ============== fonts ============== */
+#reminder{
+	font-size: 14px;
+	color: var(--color05);
+}
+
+
+/* ============== MY BOTTONS =============== */
+#mock-bqt{
+	background-image: url("../img/mockbanquet.png");
+}
+
+#atd-reg{
+	background-image: url("../img/attendeeregister.png");
+}
+
+#history{
+	background-image: url("../img/history.png");
+}
+
+button.big-main-btn{
+	background-blend-mode: lighten;
+	background: rgba(240, 201, 74, 0.9);
+	width: 170px;
+	height: 170px;
+	margin: 20px;
+	-webkit-border-radius: 15px;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+	border: 0px;
+	box-shadow: #666 3px 3px 20px;
+}
+
+button.square-btn{
+	min-width: 60px;
+	max-width: 60px;
+	min-height: 60px;
+	max-height: 60px;
+}
+
+#news-btn{
+	background: rgba(255,255,255,0.3);
+	border: 0px;
+}
+
+span,a{
+	display: inline-block;
+}
