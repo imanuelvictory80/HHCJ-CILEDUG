@@ -74,7 +74,10 @@ div{
 	width: 100%;
 	min-height: 100px;
 	height: 100%;
-	max-height: 100%;
+	max-height: 800px;
+}
+.banquet-filter{
+	margin: 0px auto;
 }
 
 .next-btn-container{
@@ -155,6 +158,18 @@ input[type='text'].meal-display{
 	background: var(--white8);
 }
 
+div.input-group-sm{
+	padding: 0px;
+	margin: 0px;
+}
+div.input-group-sm span.input-group-text{
+	min-width: 110px;
+	width: 110px;
+	max-width: 110px;
+}
+div.input-group-sm input{
+	margin: 0px auto;
+}
 
 
 /* ============== MY BOTTONS =============== */
@@ -215,7 +230,8 @@ button.square-btn{
 	max-height: 60px;
 }
 
-#news-btn{
+#news-btn,
+.filter-btn{
 	background: rgba(255,255,255,0.3);
 	border: 0px;
 }

@@ -7,7 +7,7 @@ function headBar(){
 	document.write('<div class="container-fluid" style="background: var(--white4); text-align: center;">');
 	document.write('<div class="container">');
 	document.write('<div class="row"><div class="col-lg-1 col-xl-1"></div><div class="col" style="text-align:center; display: flex; justify-content: space-between;"> <img src="img/LOGO.png" alt="Hotel ICONIA" style="max-height: 120px;display:inline-block; vertical-align: middle;"/> ');
-	document.write('<div style="text-align:center; margin:auto; color:darkslategray;display:inline-block; vertical-align: middle; "><h2>Banquet Managing System</h2> </div></div>');
+	document.write('<div style="text-align:center; margin:auto; color:#166; display:inline-block; vertical-align: middle; "><h2 style="text-shadow: -2px -2px 4px rgba(255,255,255,0.5);">Banquet Managing System</h2> </div></div>');
 	document.write('<div class="col-lg-1 col-xl-1"></div></div></div></div>');
 }
 
@@ -22,7 +22,7 @@ function headBar(){
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Link</a>
@@ -43,10 +43,10 @@ function headBar(){
 	</nav>
 */
 
-function btmNavBar(){
+function btmNavBar(t=''){
 	a = "";
 	a += '<nav class="navbar fixed-bottom navbar-expand-sm navbar-dark bg-dark">';
-	a += '    <a class="navbar-brand" href="#">Hotel ICONIA</a>';
+	a += '    <a class="navbar-brand" href="index.html">Hotel ICONIA</a>';
 	a += '    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">';
 	a += '        <span class="navbar-toggler-icon"></span>';
 	a += '    </button>';
@@ -64,7 +64,10 @@ function btmNavBar(){
 	a += '</li>';
 	a += '</li>';
 	a += '<li class="nav-item">';
-	a += '	<a class="nav-link disabled" href="admin-login.html"><span class="oi oi-key"></span>Admin</a>';
+	if(t!='')
+		a += '	<a class="nav-link disabled" href="index.html"><span class="oi oi-key"></span> ['+t+'] Logout</a>';
+	else
+		a += '	<a class="nav-link disabled" href="admin-login.html"><span class="oi oi-key"></span> Admin</a>';
 	a += '</li>';
 	a += '</ul>';
 	a += '</div>';
@@ -88,3 +91,30 @@ function Login() {
 		alert("Invalid ID or incorrect password. Please check again.");
 	}
 }
+
+function f404() {
+	alert("This function is under development.\n\nFor demonstration, these functions are available now:\n\n  1. Attendee Register\n    (through index)\n\n  2. Administrator Login & Logout\n    (through bottom navigation bar)\n\n  3. Create Banquet\n    (throug manage page)\n\n  4. Generate Banquet Report\n    (though manage page)\n\nThank you for your time.");
+}
+
+$(document).ready(
+	function(){
+		$("#table-selector td").click(
+			function(){
+				$(this).parent().find("input:radio").prop("checked",true);
+			}
+		);
+		/*$("#table-checkbox td").click(
+			function(){
+				if($(this).parent().find("input:checkbox").attr("checked")!="checked")
+				{
+					alert("yes");
+					$(this).parent().find("input:checkbox").attr("checked","checked");
+				}
+				else{
+					alert("no");
+					$(this).parent().find("input:checkbox").attr("checked",false);
+				}
+			}
+		);*/
+	}
+);

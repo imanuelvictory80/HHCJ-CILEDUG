@@ -92,14 +92,6 @@ function checkP3(){
 
 $(document).ready(
 	function(){
-		$("#table-selector td").click(
-			function(){
-				$(this).parent().find("input:radio").prop("checked",true);
-				//alert($(this).parent().find("input:radio").attr("checked"));
-			}
-		)
-	},
-	function(){
 		$(".meal-choice-div").click(
 			function(){
 				$(this).find("input:radio").prop("checked",true);
