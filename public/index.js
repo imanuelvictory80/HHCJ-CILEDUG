@@ -8,6 +8,7 @@ var config = {
     messagingSenderId: "78359664414"
 };
 firebase.initializeApp(config);
+db = firebase.database();
 
 var database = firebase.database();
 
@@ -19,10 +20,30 @@ var database = firebase.database();
 // });
 
 function writeUserData(userId, name, email, imageUrl) {
-    console.log("1");
     firebase.database().ref('users/' + userId).set({
       username: name,
       email: email,
       profile_picture : imageUrl
     });
   }
+
+function loadAdminBanquets(){
+    db.ref('banquet').on('value', function(snapshot) {
+        console.log(snapshot.val());
+    });
+}
+
+function dbCreateBanquet(){
+    var name = document.getElementById("banquet-title").value;
+    var beginTime = document.getElementById("begin-time").value;
+    var endTime = document.getElementById("end-time").value;
+    var location = document.getElementById("location").value;
+    db.ref('banquet').push({
+        name: name,
+        beginTime: beginTime,
+        endTime : endTime,
+        location : location
+    }).then(res => {
+        alert("The new banquet is created!");
+    });
+}
