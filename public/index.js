@@ -12,11 +12,11 @@ firebase.initializeApp(config);
 var database = firebase.database();
 
 // document.getElementById("test").addEventListener("click", writeUserData('3','2','3','4'));
-$(document).ready(function(){
-    $("#test").click(function(){
-        writeUserData('4','2','3','4')
-    });
-});
+// $(document).ready(function(){
+//     $("#test").click(function(){
+//         writeUserData('4','2','3','4')
+//     });
+// });
 
 function writeUserData(userId, name, email, imageUrl) {
     console.log("1");
