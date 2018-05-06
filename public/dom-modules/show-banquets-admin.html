@@ -67,8 +67,8 @@
             <thead>
                 <tr>
                     <th>Banquet Name
-                        <paper-icon-button id="usernameSortBtn"icon="av:sort-by-alpha" style="color: grey;" on-click="sort"></paper-icon-button>
-                        <paper-tooltip for="usernameSortBtn" offset="10" position="bottom">Sort the table: A-Z of username</paper-tooltip>
+                        <paper-icon-button id="banquetNameSortBtn" icon="av:sort-by-alpha" style="color: grey;" on-click="sort"></paper-icon-button>
+                        <paper-tooltip for="banquetNameSortBtn" offset="10" position="bottom">Sort the table: A-Z of banquet name</paper-tooltip>
                     </th>
                     <template is="dom-repeat" items={{_banquets_array_sample.info}} as="banquetinfo">
                         <td>{{banquetinfo.key}}
@@ -85,8 +85,7 @@
                         <paper-tooltip for="averageSortBtn" offset="10" position="bottom">Sort the table: high to low of class average</paper-tooltip>
                     </td> -->
                     <td hidden$="[[!showStat]]">Operations
-                        <paper-icon-button id="totalSortBtn" icon="icons:sort" style="color: grey;" on-click="sort"></paper-icon-button>
-                        <paper-tooltip for="totalSortBtn" offset="10" position="bottom">Sort the table: high to low of class total scores</paper-tooltip>
+                        hihi
                     </td>
                 </tr>
             </thead>
@@ -94,8 +93,8 @@
                 <template is="dom-repeat" items={{_banquets_array}} as="banquet">
                     <tr>
                         <th scope='row'>
-                            <paper-icon-button id="{{stu.name}}"icon="icons:more-horiz" style="color: grey;"></paper-icon-button>
-                            <paper-tooltip for="{{stu.name}}" offset="5" position="left">Detail statistics for {{stu.userID}}</paper-tooltip>
+                            <!-- <paper-icon-button id="{{stu.name}}"icon="icons:more-horiz" style="color: grey;"></paper-icon-button>
+                            <paper-tooltip for="{{stu.name}}" offset="5" position="left">Detail statistics for {{stu.userID}}</paper-tooltip> -->
                             {{banquet.name}}
                         </th>
                         <template is="dom-repeat" items={{banquet.info}} as="info">
@@ -143,7 +142,6 @@
 
             // OBSERVER
             _observer1(value){
-                console.log("inside", value);
                 var outputarray = [];
                 for (var key in value){
                     var innerjson = value[key];
@@ -161,9 +159,29 @@
                     innerjson['info'] = newjsontemp
                     outputarray.push(innerjson);
                 }
-                console.log(outputarray);
                 this.set('_banquets_array', outputarray);
                 this.set('_banquets_array_sample', outputarray[0]);
+            }
+
+            sort(event){
+                var pathId = event.path[2].id;
+                var sortQuery = pathId.substring(0,pathId.length-7); // get sort button name by event path
+                if (sortQuery === 'banquetName'){
+                    var new_banquet_array_sorted = this._banquets_array.sort(function(a, b) {
+                        return (a['name'].toLowerCase() > b['name'].toLowerCase()) ? 1 : ((a['name'].toLowerCase() < b['name'].toLowerCase()) ? -1 : 0);
+                    });
+                } else {
+                    // var tempIndex = this._assignments_list.indexOf(sortQuery);
+                    var new_banquet_array_sorted = this._banquets_array.sort(function(a, b) {
+                        var contenta = a[sortQuery];
+                        var contentb = b[sortQuery];
+                        if (contenta === '-') {contenta = 0;}
+                        if (contentb === '-') {contentb = 0;}
+                        return (contentb < contenta) ? 1 : ((contentb > contenta) ? -1 : 0);
+                    });
+                }
+                // console.log(new_banquet_array_sorted);
+                this.notifySplices('_banquets_array', new_banquet_array_sorted);
             }
         }
         window.customElements.define(ShowBanquetsAdmin.is, ShowBanquetsAdmin);
