@@ -8,6 +8,7 @@
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../bower_components/iron-icons/av-icons.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
 
 <dom-module id="show-banquets-admin"> 
     <template>
@@ -84,27 +85,28 @@
                         <paper-icon-button id="averageSortBtn" icon="icons:sort" style="color: grey;" on-click="sort"></paper-icon-button>
                         <paper-tooltip for="averageSortBtn" offset="10" position="bottom">Sort the table: high to low of class average</paper-tooltip>
                     </td> -->
-                    <td hidden$="[[!showStat]]">Operations
-                        hihi
-                    </td>
+                    <td hidden$="[[!showStat]]">Operations</td>
                 </tr>
             </thead>
             <tbody>
                 <template is="dom-repeat" items={{_banquets_array}} as="banquet">
                     <tr>
-                        <th scope='row'>
+                        <th scope='row' style="vertical-align: middle;">
                             <!-- <paper-icon-button id="{{stu.name}}"icon="icons:more-horiz" style="color: grey;"></paper-icon-button>
                             <paper-tooltip for="{{stu.name}}" offset="5" position="left">Detail statistics for {{stu.userID}}</paper-tooltip> -->
                             {{banquet.name}}
                         </th>
                         <template is="dom-repeat" items={{banquet.info}} as="info">
-                            <td>{{info.value}}</td>
+                            <td style="vertical-align: middle;">{{info.value}}</td>
                             <!-- <td>[[_getScore(stu, assign_name)]]</td> -->
                         </template>
-                        <template is="dom-repeat" items={{stu.stats}} as="stats">
-                            <td hidden$="[[!showStat]]">{{stats}}</td>
+                        <td hidden$="[[!showStat]]">
+                            <a href="admin-banquet-detail.html?id={{banquet.key}}"><paper-button class="custom" raised>Show detail</paper-button></a>
+                        </td>
+                        <!-- <template is="dom-repeat" items={{stu.stats}} as="stats"> -->
+                            <!-- <td hidden$="[[!showStat]]">{{stats}}</td> -->
                             <!-- <td>[[_getScore(stu, assign_name)]]</td> -->
-                        </template>
+                        <!-- </template> -->
                     </tr>
                 </template>
             </tbody>
@@ -131,6 +133,9 @@
                         observer: "_observer1"
                     },
                     _banquets_array: {
+                        type: Array
+                    },
+                    _banquets_array_all: {
                         type: Array
                     },
                     showStat: {
@@ -160,6 +165,7 @@
                     outputarray.push(innerjson);
                 }
                 this.set('_banquets_array', outputarray);
+                this.set('_banquets_array_all', outputarray);
                 this.set('_banquets_array_sample', outputarray[0]);
             }
 
@@ -182,6 +188,15 @@
                 }
                 // console.log(new_banquet_array_sorted);
                 this.notifySplices('_banquets_array', new_banquet_array_sorted);
+            }
+
+            changeSearch(event){
+                var q = this.searchQuery.toLowerCase();
+                var new_banquet_array_by_search = this._banquets_array_all.filter(function (el) {
+                    // return el.userID.toLowerCase().substring(0,q.length) === q; // check prefix
+                    return el.name.toLowerCase().indexOf(q) > -1; // check contain
+                });
+                this.set('_banquets_array', new_banquet_array_by_search);
             }
         }
         window.customElements.define(ShowBanquetsAdmin.is, ShowBanquetsAdmin);
