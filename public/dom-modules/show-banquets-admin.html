@@ -33,7 +33,7 @@
                 --paper-fab-background: var(--paper-indigo-500);
                 --paper-fab-keyboard-focus-background: var(--paper-indigo-900);
                 position: fixed;
-                bottom: 1.5em;
+                bottom: 4.5em;
                 right: 1.5em; 
             }
             google-chart {
@@ -59,7 +59,7 @@
                 <paper-input class="col" label="Search banquet by name" on-input="changeSearch" id="searchinput" value="{{searchQuery}}">
                     <iron-icon icon="search" slot="suffix"></iron-icon>
                 </paper-input>
-                <paper-toggle-button checked="{{showStat}}" class="col-2">Statistics</paper-toggle-button>
+                <paper-toggle-button checked="{{showStat}}" class="col-2" checked>Operations</paper-toggle-button>
             </div>
         </div>
 
@@ -70,36 +70,36 @@
                         <paper-icon-button id="usernameSortBtn"icon="av:sort-by-alpha" style="color: grey;" on-click="sort"></paper-icon-button>
                         <paper-tooltip for="usernameSortBtn" offset="10" position="bottom">Sort the table: A-Z of username</paper-tooltip>
                     </th>
-                    <template is="dom-repeat" items={{_return_assigns}} as="assign_name">
-                        <td>{{assign_name}}
-                            <paper-icon-button id="{{assign_name}}SortBtn" icon="icons:sort" style="color: grey;" on-click="sort"></paper-icon-button>
-                            <paper-tooltip for="{{assign_name}}SortBtn" offset="10" position="bottom">Sort the table: high to low of {{assign_name}} grades</paper-tooltip>
+                    <template is="dom-repeat" items={{_banquets_array_sample.info}} as="banquetinfo">
+                        <td>{{banquetinfo.key}}
+                            <paper-icon-button id="{{banquetinfo.key}}SortBtn" icon="icons:sort" style="color: grey;" on-click="sort"></paper-icon-button>
+                            <paper-tooltip for="{{banquetinfo.key}}SortBtn" offset="10" position="bottom">Sort the table: high to low of {{banquetinfo.key}}</paper-tooltip>
                         </td>
                     </template>
-                    <td hidden$="[[!showStat]]">Median
+                    <!-- <td hidden$="[[!showStat]]">Median
                         <paper-icon-button id="medianSortBtn" icon="icons:sort" style="color: grey;" on-click="sort"></paper-icon-button>
                         <paper-tooltip for="medianSortBtn" offset="10" position="bottom">Sort the table: high to low of class median</paper-tooltip>
                     </td>
                     <td hidden$="[[!showStat]]">Average
                         <paper-icon-button id="averageSortBtn" icon="icons:sort" style="color: grey;" on-click="sort"></paper-icon-button>
                         <paper-tooltip for="averageSortBtn" offset="10" position="bottom">Sort the table: high to low of class average</paper-tooltip>
-                    </td>
-                    <td hidden$="[[!showStat]]">Total
+                    </td> -->
+                    <td hidden$="[[!showStat]]">Operations
                         <paper-icon-button id="totalSortBtn" icon="icons:sort" style="color: grey;" on-click="sort"></paper-icon-button>
                         <paper-tooltip for="totalSortBtn" offset="10" position="bottom">Sort the table: high to low of class total scores</paper-tooltip>
                     </td>
                 </tr>
             </thead>
             <tbody>
-                <template is="dom-repeat" items={{_grades_array}} as="stu">
+                <template is="dom-repeat" items={{_banquets_array}} as="banquet">
                     <tr>
                         <th scope='row'>
                             <paper-icon-button id="{{stu.name}}"icon="icons:more-horiz" style="color: grey;"></paper-icon-button>
                             <paper-tooltip for="{{stu.name}}" offset="5" position="left">Detail statistics for {{stu.userID}}</paper-tooltip>
-                            {{stu.userID}}
+                            {{banquet.name}}
                         </th>
-                        <template is="dom-repeat" items={{stu.hw}} as="score">
-                            <td>{{score}}</td>
+                        <template is="dom-repeat" items={{banquet.info}} as="info">
+                            <td>{{info.value}}</td>
                             <!-- <td>[[_getScore(stu, assign_name)]]</td> -->
                         </template>
                         <template is="dom-repeat" items={{stu.stats}} as="stats">
@@ -110,6 +110,8 @@
                 </template>
             </tbody>
         </table>
+        <a on-click="download"><paper-fab mini icon="icons:file-download" id="fab-export"></paper-fab></a>
+        <paper-tooltip for="fab-export" offset="10" position="left">Export the table to csv file and download</paper-tooltip>
     </template>
 
     <script>
@@ -124,14 +126,45 @@
             static get is() { return 'show-banquets-admin'; }
             static get properties() {
                 return {
-                    _assignments_list: {
-                        type: Array,
-                        value: ["Loading..."]
+                    banquets: {
+                        type: Object,
+                        notify: true,
+                        observer: "_observer1"
+                    },
+                    _banquets_array: {
+                        type: Array
+                    },
+                    showStat: {
+                        type: Number,
+                        value: 1
                     }
                 };
             }
 
             // OBSERVER
+            _observer1(value){
+                console.log("inside", value);
+                var outputarray = [];
+                for (var key in value){
+                    var innerjson = value[key];
+                    innerjson['key'] = key;
+                    var newjsontemp = [];
+                    for (var key1 in innerjson){
+                        if (key1 != 'name'){
+                            var tempJson = {
+                                'key': key1,
+                                'value': innerjson[key1]
+                            }
+                            newjsontemp.push(tempJson);
+                        }
+                    }
+                    innerjson['info'] = newjsontemp
+                    outputarray.push(innerjson);
+                }
+                console.log(outputarray);
+                this.set('_banquets_array', outputarray);
+                this.set('_banquets_array_sample', outputarray[0]);
+            }
         }
         window.customElements.define(ShowBanquetsAdmin.is, ShowBanquetsAdmin);
     </script>

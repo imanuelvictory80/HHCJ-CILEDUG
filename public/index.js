@@ -29,7 +29,8 @@ function writeUserData(userId, name, email, imageUrl) {
 
 function loadAdminBanquets(){
     db.ref('banquet').on('value', function(snapshot) {
-        console.log(snapshot.val());
+        var dbreturn = snapshot.val();
+        document.getElementById("show-banquets-admin").setAttribute("banquets", JSON.stringify(dbreturn));
     });
 }
 
