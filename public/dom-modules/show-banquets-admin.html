@@ -8,6 +8,7 @@
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../bower_components/iron-icons/av-icons.html">
+<link rel="import" href="../bower_components/neon-animation/web-animations.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 
 <dom-module id="show-banquets-admin"> 
@@ -47,13 +48,12 @@
                 display: none;
             }
         </style>
-        <p>More operations of specific banquet can be found in banquet detailed page</p>
         <div class="tabtitle" class="container">
             <div class="row align-items-center">
                 <paper-dropdown-menu label="Select information shown in the table" class="col-5">
                     <div class="dropdown-content checkbox-group" slot="dropdown-content">
-                        <template is="dom-repeat" items={{_assignments_list}} as="assign_name">
-                            <paper-checkbox on-change="checkboxChanged" id="{{assign_name}}" checked>{{assign_name}}</paper-checkbox>
+                        <template is="dom-repeat" items={{_info_list}} as="info_name">
+                            <paper-checkbox on-change="checkboxChanged" id="{{info_name}}" checked>{{info_name}}</paper-checkbox>
                         </template>
                     </div>
                 </paper-dropdown-menu>
@@ -71,12 +71,18 @@
                         <paper-icon-button id="banquetNameSortBtn" icon="av:sort-by-alpha" style="color: grey;" on-click="sort"></paper-icon-button>
                         <paper-tooltip for="banquetNameSortBtn" offset="10" position="bottom">Sort the table: A-Z of banquet name</paper-tooltip>
                     </th>
-                    <template is="dom-repeat" items={{_banquets_array_sample.info}} as="banquetinfo">
+                    <template is="dom-repeat" items={{_banquets_array_sample.filter_info}} as="banquetinfo">
                         <td>{{banquetinfo.key}}
                             <paper-icon-button id="{{banquetinfo.key}}SortBtn" icon="icons:sort" style="color: grey;" on-click="sort"></paper-icon-button>
                             <paper-tooltip for="{{banquetinfo.key}}SortBtn" offset="10" position="bottom">Sort the table: high to low of {{banquetinfo.key}}</paper-tooltip>
                         </td>
                     </template>
+                    <!-- <template is="dom-repeat" items={{_return_info_list}} as="banquetinfo">
+                        <td>{{banquetinfo}}
+                            <paper-icon-button id="{{banquetinfo}}SortBtn" icon="icons:sort" style="color: grey;" on-click="sort"></paper-icon-button>
+                            <paper-tooltip for="{{banquetinfo}}SortBtn" offset="10" position="bottom">Sort the table: high to low of {{banquetinfo.key}}</paper-tooltip>
+                        </td>
+                    </template> -->
                     <!-- <td hidden$="[[!showStat]]">Median
                         <paper-icon-button id="medianSortBtn" icon="icons:sort" style="color: grey;" on-click="sort"></paper-icon-button>
                         <paper-tooltip for="medianSortBtn" offset="10" position="bottom">Sort the table: high to low of class median</paper-tooltip>
@@ -96,12 +102,13 @@
                             <paper-tooltip for="{{stu.name}}" offset="5" position="left">Detail statistics for {{stu.userID}}</paper-tooltip> -->
                             {{banquet.name}}
                         </th>
-                        <template is="dom-repeat" items={{banquet.info}} as="info">
+                        <template is="dom-repeat" items={{banquet.filter_info}} as="info">
                             <td style="vertical-align: middle;">{{info.value}}</td>
                             <!-- <td>[[_getScore(stu, assign_name)]]</td> -->
                         </template>
                         <td hidden$="[[!showStat]]">
-                            <a href="admin-banquet-detail.html?id={{banquet.key}}"><paper-button class="custom" raised>Show detail</paper-button></a>
+                            <a href="admin-banquet-detail.html?id={{banquet.key}}"><paper-button class="custom" raised>Edit/Delete</paper-button></a>
+                            <a href="admin-banquet-detail-users.html?id={{banquet.key}}"><paper-button class="custom mt-2" raised>Attendees</paper-button></a>
                         </td>
                         <!-- <template is="dom-repeat" items={{stu.stats}} as="stats"> -->
                             <!-- <td hidden$="[[!showStat]]">{{stats}}</td> -->
@@ -133,21 +140,33 @@
                         observer: "_observer1"
                     },
                     _banquets_array: {
-                        type: Array
+                        type: Array,
                     },
                     _banquets_array_all: {
                         type: Array
                     },
+                    _banquets_array_sample: {
+                        type: Object,
+                    },
                     showStat: {
                         type: Number,
                         value: 1
+                    },
+                    _info_list: {
+                        type: Array,
+                        value: ["Loading..."]
+                    },
+                    _selected_info_list:{
+                        type: Array
                     }
                 };
             }
 
             // OBSERVER
             _observer1(value){
+                // console.log(value);
                 var outputarray = [];
+                var info_list = [];
                 for (var key in value){
                     var innerjson = value[key];
                     innerjson['key'] = key;
@@ -162,12 +181,46 @@
                         }
                     }
                     innerjson['info'] = newjsontemp
+                    innerjson['filter_info'] = newjsontemp
                     outputarray.push(innerjson);
                 }
+                for (var key1 in outputarray[0]){
+                    if (key1 != 'name' && key1 != 'info'){
+                        info_list.push(key1);
+                    }
+                }
+                // console.log(info_list);
+                console.log(outputarray);
                 this.set('_banquets_array', outputarray);
                 this.set('_banquets_array_all', outputarray);
                 this.set('_banquets_array_sample', outputarray[0]);
+                this.set('_info_list', info_list);
+                this.set('_selected_info_list', this._info_list);
             }
+
+            // updateFilter(value){
+            //     console.log(this._banquets_array_all);
+            //     var new_banquet_array_by_info = this._banquets_array_all;
+            //     var return_set = new Set(value);
+            //     for (var key in this._banquets_array_all){
+            //         new_banquet_array_by_info[key].info = [];
+            //         console.log('00', this._banquets_array_all[key].info);
+            //         for (var item in this._banquets_array_all[key].info){
+            //             // if (return_set.has(this._banquets_array_all[key].info[item].key)){
+            //                 console.log(this._banquets_array_all[key].info[item].key);
+            //                 var temp = new_banquet_array_by_info[key].info
+            //                 temp.push(11);
+            //                 console.log(temp);
+            //                 new_banquet_array_by_info[key].filter_info = temp;
+            //             // }
+            //         }
+            //     }                
+            //     this.notifySplices('_banquets_array', new_banquet_array_by_info);
+            //     this.notifySplices('_banquets_array_sample', new_banquet_array_by_info[0]);
+            //     console.log(this._banquets_array_sample);
+            //     console.log(this._banquets_array);
+            //     // return new_banquet_array_by_info;
+            // }
 
             sort(event){
                 var pathId = event.path[2].id;
@@ -197,6 +250,50 @@
                     return el.name.toLowerCase().indexOf(q) > -1; // check contain
                 });
                 this.set('_banquets_array', new_banquet_array_by_search);
+            }
+
+            checkboxChanged(event){
+                // event handler for checkboxes
+                if(event.target.checked) {
+                    // if the event is checking a checkbox
+                    // console.log('checked',event.path[0].id);
+                    var hwname = event.path[0].id;
+                    var temp = this._selected_info_list;
+                    var new_selected_assigns = this.addSelectedAssignToList(temp,hwname);
+                    this.set('_selected_info_list',new_selected_assigns);
+                    this.updateInfoList();
+                } else {
+                    // if the event is unchecking a checkbox
+                    // console.log('unchecked',event.path[0].id);
+                    var hwname = event.path[0].id;
+                    var temp = this._selected_info_list;
+                    var new_selected_assigns = this.removeSelectedAssignToList(temp,hwname);
+                    this.set('_selected_info_list',new_selected_assigns);
+                    this.updateFilter(this._selected_info_list);
+                }
+            }
+
+            // updateInfoList() {
+            //     // called when the selected assignments list is updated by checkbox
+            //     // console.log('New Checked Items:', this._selected_assigns);
+            //     // // back to main js and get new results for new assignments list
+            //     // this.set('_selected_assigns', this.json_to_stu_list(value));
+            //     // updateGradeList(this._selected_info_list);
+            //     // this.set('_banquets_array', this.json_to_array(this.grades));
+            //     this.updateFilter(this._selected_info_list);
+            // }
+
+            addSelectedAssignToList(list, hwname){
+                list.push(hwname);
+                return list;
+            }
+            removeSelectedAssignToList(list, hwname){
+                var index = list.indexOf(hwname);
+                if (index > -1) {
+                    // if the element exists in the current list
+                    list.splice(index, 1);
+                }
+                return list;
             }
         }
         window.customElements.define(ShowBanquetsAdmin.is, ShowBanquetsAdmin);

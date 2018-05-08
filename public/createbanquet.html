@@ -103,7 +103,7 @@
                         <input type="text" class="form-control" name="location" id="location" required="required" placeholder=""/>
                     </div>
                     <!-- ================ -->
-                    <!-- <button type="button" class="btn btn-light subtitle-btn">
+                    <button type="button" class="btn btn-light subtitle-btn">
                         <span class="oi oi-person"></span>&nbsp;&nbsp;Staff Information
                     </button>
                     <div class="input-group mb-3"><div class="input-group-prepend">
@@ -118,30 +118,40 @@
                         <span class="input-group-text">Remarks</span></div>
                         <input type="text" class="form-control" name="remarks" id="remarks" placeholder=""/>
                     </div>
-                    ================
+                    <!-- ================ -->
                     <button type="button" class="btn btn-light subtitle-btn">
                         <span class="oi oi-list-rich"></span>&nbsp;&nbsp;Meal Choice
                     </button>
+                    <p>Available meals that can be provided by the kitchen, please choose from them to arrange meal choices for this banquet:</p>
+                    <div id="meal-choices" class="mb-3">
+                        <div class="card" style="width: 18rem;">
+                            <div class="card-body">
+                                <h5 class="card-title">Loading available meal choices from database ...</h5>
+                                <h6 class="card-subtitle mb-2 text-muted"></h6>
+                                <p class="card-text"></p>
+                            </div>
+                        </div>
+                    </div>
                     <div class="input-group mb-3"><div class="input-group-prepend">
                         <span class="input-group-text">Meal 01</span></div>
                         <input type="number" class="form-control meal-num" oninput="mealNumChange(this);" name="meal1" id="meal1" required="required" placeholder=""/>
-                        <input class="form-control meal-display" type="text" id="meal1-display" placeholder="Please input 8-digit meal number." readonly/>
+                        <input class="form-control meal-display" type="text" id="meal1-display" placeholder="Please input meal ID" readonly/>
                     </div>
                     <div class="input-group mb-3"><div class="input-group-prepend">
                         <span class="input-group-text">Meal 02</span></div>
                         <input type="number" class="form-control meal-num" oninput="mealNumChange(this);" name="meal2" id="meal2" required="required" placeholder=""/>
-                        <input class="form-control meal-display" type="text" id="meal2-display" placeholder="Please input 8-digit meal number." readonly/>
+                        <input class="form-control meal-display" type="text" id="meal2-display" placeholder="Please input meal ID" readonly/>
                     </div>
                     <div class="input-group mb-3"><div class="input-group-prepend">
                         <span class="input-group-text">Meal 03</span></div>
                         <input type="number" class="form-control meal-num" oninput="mealNumChange(this);" name="meal3" id="meal3" required="required" placeholder=""/>
-                        <input class="form-control meal-display" type="text" id="meal3-display" placeholder="Please input 8-digit meal number." readonly/>
+                        <input class="form-control meal-display" type="text" id="meal3-display" placeholder="Please input meal ID" readonly/>
                     </div>
                     <div class="input-group mb-3"><div class="input-group-prepend">
                         <span class="input-group-text">Meal 04</span></div>
                         <input type="number" class="form-control meal-num" oninput="mealNumChange(this);" name="meal4" id="meal4" required="required" placeholder=""/>
-                        <input class="form-control meal-display" type="text" id="meal4-display" placeholder="Please input 8-digit meal number." readonly/>
-                    </div> -->
+                        <input class="form-control meal-display" type="text" id="meal4-display" placeholder="Please input meal ID" readonly/>
+                    </div>
                                             
                 </div>
             </div>
@@ -159,5 +169,6 @@
     <br/>
     <br/>
     <script type="text/javascript">btmNavBar("1234");</script>
+    <script type='text/javascript'>loadMeals();</script>
 </body>
 </html>
