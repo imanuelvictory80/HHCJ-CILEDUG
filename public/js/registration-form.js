@@ -174,7 +174,6 @@ function checkP2(){
 	$('.row2').hide(); $('.row3').show();
 }
 
-
 function checkP3(){
 	var mealflag = -1, drinkflag = -1;
 	var radios = document.getElementsByName("meal");
