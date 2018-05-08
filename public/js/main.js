@@ -52,7 +52,7 @@ function btmNavBar(t=''){
 	a += '    </button>';
 	a += '    <div class="collapse navbar-collapse" id="navbarCollapse">';
 	a += '        <ul class="navbar-nav mr-auto"><li class="nav-item active">';
-	a += '            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>';
+	a += '            <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>';
 	a += '        </li><li class="nav-item"><a class="nav-link" href="#">Link</a></li>';
 	a += '<li class="nav-item dropup">';
 	a += '<a class="nav-link dropdown-toggle" id="dropdown10" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Contact Us</a>';
@@ -65,9 +65,9 @@ function btmNavBar(t=''){
 	a += '</li>';
 	a += '<li class="nav-item">';
 	if(t!='')
-		a += '	<a class="nav-link disabled" href="index.html"><span class="oi oi-key"></span> ['+t+'] Logout</a>';
+		a += '	<a id="manager-btn" class="nav-link disabled" onclick="javascript: Logout();"><span class="oi oi-key"></span><span id="admin-email"> ['+t+'] Logout</span></a>';
 	else
-		a += '	<a class="nav-link disabled" href="admin-login.html"><span class="oi oi-key"></span> Admin</a>';
+		a += '	<a id="manager-btn" class="nav-link disabled" href="admin-login.html"><span class="oi oi-key"></span><span id="admin-email"> Admin Login</span></a>';
 	a += '</li>';
 	a += '</ul>';
 	a += '</div>';
@@ -83,14 +83,14 @@ $(function () {
 	$('[data-toggle="popover"]').popover()
 });
 
-function Login() {
+/*function Login() {
 	//add encryption here
 	//document.getElementById("login-form").submit();
 	if(document.getElementById("staff-id").value == "1234" && document.getElementById("password").value == "1234") window.location.href="manage.html";
 	else{
 		alert("Invalid ID or incorrect password. Please check again.");
 	}
-}
+}*/
 
 function f404() {
 	alert("This function is under development.\n\nFor demonstration, these functions are available now:\n\n  1. Attendee Register\n    (through index)\n\n  2. Administrator Login & Logout\n    (through bottom navigation bar)\n\n  3. Create Banquet\n    (throug manage page)\n\n  4. Generate Banquet Report\n    (though manage page)\n\nThank you for your time.");

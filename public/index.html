@@ -6,7 +6,17 @@
     
     <!-- To adjust different kinds of devices -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    
+    <style>
+        #map {
+         height: 400px;
+         width: 50%;
+        }
+        .center-div
+    {
+        margin: 0 auto;
+        width: 100px; 
+    }
+     </style>
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery.min.js"></script>
 
@@ -90,9 +100,9 @@
         <div class="row" id="main-buttons" style="text-align: center;">
             <div class="col-lg-1 col-xl-2"></div>
             <div class="col-12 col-lg-10 col-xl-8">
-                <button type="button" class="btn btn-dark big-main-btn" id="mock-bqt" onclick='f404();'></button> 
+                <!--<button type="button" class="btn btn-dark big-main-btn" id="mock-bqt" onclick='f404();'></button>-->
                 <button type="button" class="btn btn-dark big-main-btn" id="atd-reg" onclick="javascript:window.location.href='attendeeregister.html'"></button> 
-                <button type="button" class="btn btn-dark big-main-btn" id="history" onclick='f404();'></button> 
+                <!--<button type="button" class="btn btn-dark big-main-btn" id="history" onclick='f404();'></button>-->
             </div>
             <div class="col-lg-1 col-xl-2"></div>
         </div>
@@ -129,6 +139,26 @@
             </div>
         </div>
     </div>
+    <div id="map" class="center-div"></div>
+    <br/>
+    <br/>
+    <br/>
+    <script>
+        function initMap() {
+          var uluru = {lat: 22.3007, lng: 114.1796};
+          var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 12,
+            center: uluru
+          });
+          var marker = new google.maps.Marker({
+            position: uluru,
+            map: map
+          });
+        }
+      </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAvVcHiEYejifctxBSNCMhTymO0VE1qRfs&callback=initMap">
+    </script>
     <br/>
     <br/>
     <br/>
