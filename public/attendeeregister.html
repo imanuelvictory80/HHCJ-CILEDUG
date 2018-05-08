@@ -7,8 +7,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     
     <script src="https://code.jquery.com/jquery.js"></script>
-    <!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"> -->
-    <!-- <script src="js/bootstrap.min.js"></script> -->
+
+    <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
+    <!-- Firebase UI -->
+    <script type="text/javascript" src="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.css" />
+    
 
     <!-- Import Bootstrap with js (bundle for popover)-->
     <link href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
@@ -21,10 +25,6 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
 
-    <script type="text/javascript" src ="js/main.js"></script>
-    <script type="text/javascript" src ="js/registration-form.js"></script>
-    <link href="css/mainstyle.css" rel="stylesheet">
-    <link href="https://cdn.bootcss.com/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css" rel="stylesheet">
     <script type="text/javascript">
         window.onbeforeunload = function(){
             var event = event || window.event;
@@ -34,6 +34,11 @@
             return 'Are you sure to go to homepage? This unfinished sheet may be cleaned.';
         }
     </script>
+    <script type="text/javascript" src ="js/main.js"></script>
+    <script type="text/javascript" src ="js/registration-form.js"></script>
+    <link href="css/mainstyle.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css" rel="stylesheet">
+    
 </head>
 
 <body>
@@ -65,18 +70,18 @@
             <div class="col-12 col-lg-10 col-xl-10">
                 <div class="form-group" id="banquet-selector">
                     <table class="table table-sm table-hover" id="table-selector">
-                        <tbody>
+                        <tbody id='banquet-table'>
                             <thead>
                                 <tr>
                                     <th scope="col"></th>
                                     <th scope="col">#ID</th>
                                     <th scope="col">Banquet</th>
-                                    <th scope="col">Date</th>
                                     <th scope="col">Time</th>
+                                    <th scope="col">Location</th>
                                     <th scope="col">Remark</th>
                                 </tr>
                             </thead>
-                            <tr>
+                            <!--<tr>
                                 <td>
                                     <div class="custom-control custom-radio">
                                         <input type="radio" id="1025" name="banquetRadio" class="custom-control-input" value="1025"/>
@@ -127,15 +132,15 @@
                                 <td>11 Apr 2018</td>
                                 <td>15:30</td>
                                 <td>HKSAR</td>
-                            </tr>
+                            </tr>-->
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
-
+        <script>readBanquets();</script>
         <div class="row row1">
-            <button type="button" class="btn btn-secondary next-btn" onclick="javascript:checkP1();">Next</button>
+            <button type="button" class="btn btn-secondary next-btn" id='next-btn-1' onclick="javascript:checkP1();" disabled>Loading Banquets ...</button>
         </div>
 
         <!-- ====== ROW2: Personal information ====== -->
@@ -221,52 +226,52 @@
             <div class="col-12 col-lg-10 col-xl-10">
                 <div class="form-group food-selector">
                     <div class="meal-choice-div meal-choice">
-                        <input type="radio" name="meal" value="meal01" id="meal01" style="display: none;"/>
-                        <label for="meal01">
-                            <div class="meal-card">
-                                <img class="food-img" src="img/spaghetti.jpg"  alt="Spaghetti"/>
-                                <div class="meal-info">
+                        <input type="radio" name="meal" value="meal1" id="meal1" style="display: none;"/>
+                        <label for="meal1">
+                            <div class="meal-card" id='meal1-content'>
+                                <!--<img class="food-img" src="img/spaghetti.jpg"  alt="Spaghetti"/>
+                                <div class="meal-info" id='meal1-info'>
                                     <h5>Spaghetti</h5>
                                     <p>Pork Sauce: 70g Spaghetti: 300g Vegetable: 50g</p>
-                                </div>
+                                </div>-->
                             </div>
                         </label>
                     </div> 
                     <div class="meal-choice-div meal-choice">
-                        <input type="radio" name="meal" value="meal02" id="meal02" style="display: none;"/>
-                        <label for="meal02">
-                            <div class="meal-card">
-                                <img class="food-img" src="img/pizza.jpg"  alt="Pizza"/>
-                                <div class="meal-info">
+                        <input type="radio" name="meal" value="meal2" id="meal2" style="display: none;"/>
+                        <label for="meal2">
+                            <div class="meal-card" id='meal2-content'>
+                                <!--<img class="food-img" src="img/pizza.jpg"  alt="Pizza"/>
+                                <div class="meal-info" id='meal2-info'>
                                     <h5>Pizza</h5>
                                     <p>Pizza 100%</p>
-                                </div>
+                                </div>-->
                             </div>
                         </label>
                     </div>
                     <div class="meal-choice-div meal-choice">
-                        <input type="radio" name="meal" value="meal03" id="meal03" style="display: none;"/>
-                        <label for="meal03">
-                            <div class="meal-card">
-                                <img class="food-img" src="img/noodle.jpg"  alt="Noodle - Plain Food"/>
-                                <div class="meal-info">
+                        <input type="radio" name="meal" value="meal3" id="meal3" style="display: none;"/>
+                        <label for="meal3">
+                            <div class="meal-card" id='meal3-content'>
+                                <!--<img class="food-img" src="img/noodle.jpg"  alt="Noodle - Plain Food"/>
+                                <div class="meal-info" id='meal3-info'>
                                     <h5>Beef Noodle</h5>
                                     <h6>[Plain Food]</h6>
                                     <p>Beef: 80g Noodle: 350g</p>
-                                </div>
+                                </div>-->
                             </div>
                         </label>
                     </div> 
                     <div class="meal-choice-div meal-choice">
-                        <input type="radio" name="meal" value="meal04" id="meal04" style="display: none;"/>
-                        <label for="meal04">
-                            <div class="meal-card">
-                                <img class="food-img" src="img/vegetable.jpg"  alt="Vegetable Salad"/>
-                                <div class="meal-info">
+                        <input type="radio" name="meal" value="meal4" id="meal4" style="display: none;"/>
+                        <label for="meal4">
+                            <div class="meal-card" id='meal4-content'>
+                                <!--<img class="food-img" src="img/vegetable.jpg"  alt="Vegetable Salad"/>
+                                <div class="meal-info" id='meal4-info'>
                                     <h5>Vegetable Salad</h5>
                                     <h6>[For Vegetarians]</h6>
                                     <p>Vegetable 100%</p>
-                                </div>
+                                </div>-->
                             </div>
                         </label>
                     </div>
@@ -274,7 +279,7 @@
 
                 <div class="form-group food-selector">
                     <div class="meal-choice-div drink-choice">
-                        <input type="radio" name="drink" value="drink01" id="drink01" style="display: none;"/>
+                        <input type="radio" name="drink" value="juice" id="drink01" style="display: none;"/>
                         <label for="drink01">
                             <div class="meal-card">
                                 <img class="drink-img" src="img/juice.jpg"  alt="Orange Juice"/>
@@ -285,7 +290,7 @@
                         </label>
                     </div> 
                     <div class="meal-choice-div drink-choice">
-                        <input type="radio" name="drink" value="drink02" id="drink02" style="display: none;"/>
+                        <input type="radio" name="drink" value="tea" id="drink02" style="display: none;"/>
                         <label for="drink02">
                             <div class="meal-card">
                                 <img class="drink-img" src="img/tea.jpg"  alt="Green Tea"/>
@@ -296,7 +301,7 @@
                         </label>
                     </div>
                     <div class="meal-choice-div drink-choice">
-                        <input type="radio" name="drink" value="drink03" id="drink03" style="display: none;"/>
+                        <input type="radio" name="drink" value="7up" id="drink03" style="display: none;"/>
                         <label for="drink03">
                             <div class="meal-card">
                                 <img class="drink-img" src="img/7up.jpg"  alt="7-up"/>
@@ -307,7 +312,7 @@
                         </label>
                     </div> 
                     <div class="meal-choice-div drink-choice">
-                        <input type="radio" name="drink" value="drink04" id="drink04" style="display: none;"/>
+                        <input type="radio" name="drink" value="coke" id="drink04" style="display: none;"/>
                         <label for="drink04">
                             <div class="meal-card">
                                 <img class="drink-img" src="img/coke.jpg"  alt="Coke"/>
