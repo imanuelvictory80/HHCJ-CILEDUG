@@ -33,6 +33,19 @@ function writeUserData(userId, name, email, imageUrl) {
 function loadAdminBanquets(){
     db.ref('banquet').on('value', function(snapshot) {
         var dbreturn = snapshot.val();
+        for (var key in dbreturn){
+            var ops = [];
+            ops.push({
+                name: 'Edit/Delete',
+                url: 'admin-banquet-detail.html?id='+key
+            });
+            ops.push({
+                name: 'Attendees',
+                url: 'admin-banquet-detail-users.html?id='+key
+            });
+            dbreturn[key].ops = ops;
+            dbreturn[key]['showInfoAttr'] = ['beginTime','endTime','location','meal1','meal2','meal3','meal4'];
+        }
         document.getElementById("show-banquets-admin").setAttribute("banquets", JSON.stringify(dbreturn));
     });
 }
@@ -40,7 +53,24 @@ function loadAdminBanquets(){
 function loadAdminUsers(){
     db.ref('users').on('value', function(snapshot) {
         var dbreturn = snapshot.val();
-        document.getElementById("show-users-admin").setAttribute("banquets", JSON.stringify(dbreturn));
+        db.ref('banquet').on('value', function(snapshot1) {
+            var dbreturn1 = snapshot1.val();
+            for (var key in dbreturn){
+                // var banquetName = dbreturn1[].name;
+                var banquetId = dbreturn[key].banquet;
+                var banquetName = dbreturn1[banquetId].name;
+                var ops = [];
+                ops.push({
+                    name: 'Edit/Delete',
+                    url: 'admin-user-detail.html?id='+key
+                });
+                dbreturn[key].ops = ops;
+                dbreturn[key].name = dbreturn[key].first_name + ' ' + dbreturn[key].last_name.toUpperCase();
+                dbreturn[key].banquetAndType = banquetName + '('+dbreturn[key].banquet+')' + ' as ' + dbreturn[key].type;
+                dbreturn[key]['showInfoAttr'] = ['email','meal','banquetAndType','drink'];
+            }
+            document.getElementById("show-users-admin").setAttribute("banquets", JSON.stringify(dbreturn));
+        });
     });
 }
 

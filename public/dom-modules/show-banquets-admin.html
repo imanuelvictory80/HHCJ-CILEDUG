@@ -50,14 +50,14 @@
         </style>
         <div class="tabtitle" class="container">
             <div class="row align-items-center">
-                <paper-dropdown-menu label="Select information shown in the table" class="col-5">
+                <!-- <paper-dropdown-menu label="Select information shown in the table" class="col-5">
                     <div class="dropdown-content checkbox-group" slot="dropdown-content">
                         <template is="dom-repeat" items={{_info_list}} as="info_name">
                             <paper-checkbox on-change="checkboxChanged" id="{{info_name}}" checked>{{info_name}}</paper-checkbox>
                         </template>
                     </div>
-                </paper-dropdown-menu>
-                <paper-input class="col" label="Search banquet by name" on-input="changeSearch" id="searchinput" value="{{searchQuery}}">
+                </paper-dropdown-menu> -->
+                <paper-input class="col" label="Search the result by typing the name you want" on-input="changeSearch" id="searchinput" value="{{searchQuery}}">
                     <iron-icon icon="search" slot="suffix"></iron-icon>
                 </paper-input>
                 <paper-toggle-button checked="{{showStat}}" class="col-2" checked>Operations</paper-toggle-button>
@@ -107,8 +107,11 @@
                             <!-- <td>[[_getScore(stu, assign_name)]]</td> -->
                         </template>
                         <td hidden$="[[!showStat]]">
-                            <a href="admin-banquet-detail.html?id={{banquet.key}}"><paper-button class="custom" raised>Edit/Delete</paper-button></a>
-                            <a href="admin-banquet-detail-users.html?id={{banquet.key}}"><paper-button class="custom mt-2" raised>Attendees</paper-button></a>
+                            <template is="dom-repeat" items={{banquet.ops}} as="op">
+                                <a href={{op.url}}><paper-button class="custom" raised>{{op.name}}</paper-button></a>
+                            </template>
+                            <!-- <a href="admin-banquet-detail.html?id={{banquet.key}}"><paper-button class="custom" raised>Edit/Delete</paper-button></a>
+                            <a href="admin-banquet-detail-users.html?id={{banquet.key}}"><paper-button class="custom mt-2" raised>Attendees</paper-button></a> -->
                         </td>
                         <!-- <template is="dom-repeat" items={{stu.stats}} as="stats"> -->
                             <!-- <td hidden$="[[!showStat]]">{{stats}}</td> -->
@@ -139,6 +142,11 @@
                         notify: true,
                         observer: "_observer1"
                     },
+                    showInfoAttr: {
+                        type: Object,
+                        notify: true,
+                        observer: "_observer2"
+                    },
                     _banquets_array: {
                         type: Array,
                     },
@@ -167,12 +175,14 @@
                 // console.log(value);
                 var outputarray = [];
                 var info_list = [];
+                var showInfoAttr = [];
                 for (var key in value){
+                    showInfoAttr = value[key]['showInfoAttr'];
                     var innerjson = value[key];
                     innerjson['key'] = key;
                     var newjsontemp = [];
                     for (var key1 in innerjson){
-                        if (key1 != 'name'){
+                        if (this.include(value[key]['showInfoAttr'], key1)){ //only show the ones that allow to show
                             var tempJson = {
                                 'key': key1,
                                 'value': innerjson[key1]
@@ -185,7 +195,7 @@
                     outputarray.push(innerjson);
                 }
                 for (var key1 in outputarray[0]){
-                    if (key1 != 'name' && key1 != 'info'){
+                    if (this.include(showInfoAttr, key1)){
                         info_list.push(key1);
                     }
                 }
@@ -225,6 +235,7 @@
             sort(event){
                 var pathId = event.path[2].id;
                 var sortQuery = pathId.substring(0,pathId.length-7); // get sort button name by event path
+                // console.log(sortQuery);
                 if (sortQuery === 'banquetName'){
                     var new_banquet_array_sorted = this._banquets_array.sort(function(a, b) {
                         return (a['name'].toLowerCase() > b['name'].toLowerCase()) ? 1 : ((a['name'].toLowerCase() < b['name'].toLowerCase()) ? -1 : 0);
@@ -294,6 +305,10 @@
                     list.splice(index, 1);
                 }
                 return list;
+            }
+
+            include(arr,obj) {
+                return (arr.indexOf(obj) != -1);
             }
         }
         window.customElements.define(ShowBanquetsAdmin.is, ShowBanquetsAdmin);
