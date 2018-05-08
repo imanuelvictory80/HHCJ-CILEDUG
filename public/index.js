@@ -84,11 +84,25 @@ function dbCreateBanquet(){
     var beginTime = document.getElementById("begin-time").value;
     var endTime = document.getElementById("end-time").value;
     var location = document.getElementById("location").value;
+    var staffFirstName = document.getElementById("staff-first-name").value;
+    var staffLastName = document.getElementById("staff-last-name").value;
+    var remarks = document.getElementById("remarks").value;
+    var meal1 = document.getElementById("meal1").value;
+    var meal2 = document.getElementById("meal2").value;
+    var meal3 = document.getElementById("meal3").value;
+    var meal4 = document.getElementById("meal4").value;
     db.ref('banquet').push({
         name: name,
         beginTime: beginTime,
         endTime : endTime,
-        location : location
+        location : location,
+        staffFirstname: staffFirstName,
+        staffLastName: staffLastName,
+        remarks: remarks,
+        meal1: meal1,
+        meal2: meal2,
+        meal3: meal3,
+        meal4: meal4
     }).then(res => {
         alert("The new banquet is created!");
     });
