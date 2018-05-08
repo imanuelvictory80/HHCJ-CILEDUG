@@ -68,6 +68,29 @@ function loadMeals(){
     });
 }
 
+function loadBanquetInfo(id){
+    db.ref('banquet/'+id).on('value', function(snapshot) {
+        var dbreturn = snapshot.val();
+        document.getElementById("banquet-title").value=dbreturn.name;
+        document.getElementById("begin-time").value=dbreturn.beginTime;
+        document.getElementById("end-time").value=dbreturn.endTime;
+        document.getElementById("location").value=dbreturn.location;
+        document.getElementById("staff-first-name").value=dbreturn.staffFirstname;
+        document.getElementById("staff-last-name").value=dbreturn.staffLastName;
+        if (dbreturn.remarks == undefined){
+            document.getElementById("remarks").value="";
+        } else {
+            document.getElementById("remarks").value=dbreturn.remarks;
+        }
+        document.getElementById("meal1").value=dbreturn.meal1;
+        document.getElementById("meal2").value=dbreturn.meal2;
+        document.getElementById("meal3").value=dbreturn.meal3;
+        document.getElementById("meal4").value=dbreturn.meal4;
+        document.getElementById("loader").style="display:none;"
+        // document.getElementById("show-users-admin").setAttribute("banquets", JSON.stringify(dbreturn));
+    });
+}
+
 function mealNumChange(c){
     var t = "Please input meal ID";
     if (include(mealIDs, c.value)){
@@ -92,6 +115,35 @@ function dbCreateBanquet(){
     var meal3 = document.getElementById("meal3").value;
     var meal4 = document.getElementById("meal4").value;
     db.ref('banquet').push({
+        name: name,
+        beginTime: beginTime,
+        endTime : endTime,
+        location : location,
+        staffFirstname: staffFirstName,
+        staffLastName: staffLastName,
+        remarks: remarks,
+        meal1: meal1,
+        meal2: meal2,
+        meal3: meal3,
+        meal4: meal4
+    }).then(res => {
+        alert("The new banquet is created!");
+    });
+}
+
+function dbUpdateBanquet(id){
+    var name = document.getElementById("banquet-title").value;
+    var beginTime = document.getElementById("begin-time").value;
+    var endTime = document.getElementById("end-time").value;
+    var location = document.getElementById("location").value;
+    var staffFirstName = document.getElementById("staff-first-name").value;
+    var staffLastName = document.getElementById("staff-last-name").value;
+    var remarks = document.getElementById("remarks").value;
+    var meal1 = document.getElementById("meal1").value;
+    var meal2 = document.getElementById("meal2").value;
+    var meal3 = document.getElementById("meal3").value;
+    var meal4 = document.getElementById("meal4").value;
+    db.ref('banquet/'+id).set({
         name: name,
         beginTime: beginTime,
         endTime : endTime,

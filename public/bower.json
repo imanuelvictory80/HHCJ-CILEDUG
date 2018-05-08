@@ -21,6 +21,7 @@
     "polymer": "Polymer/polymer#^2.6.0",
     "webcomponentsjs": "webcomponents/webcomponentsjs#^1.2.0",
     "iron-dropdown": "PolymerElements/iron-dropdown#^2.2.0",
-    "web-animations-js": "^2.3.1"
+    "web-animations-js": "^2.3.1",
+    "paper-spinner": "PolymerElements/paper-spinner#^2.1.0"
   }
 }
