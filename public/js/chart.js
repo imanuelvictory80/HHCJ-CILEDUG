@@ -14,19 +14,22 @@ function drawBasic() {
     
     //Read data from the database
     var dataARR = new Array(100);
+    for (var i = 0; i < 100; i++) {
+        dataARR[i] = 0;
+    }
     var database = firebase.database();
-    for (i = 0; i < selchbox.length; i++) {
-        var attendee = database.ref('banquet/' + selchbox[i].toString() + '/attendees');
-        attendee.forEach(function(snapshot) {
-            var meal = snapshot.val().meal;
+    var attendee = database.ref('users').orderByKey();
+    attendee.on("value", function (snapshot) {
+        snapshot.forEach(function (childSnapshot) {
+            var val = childSnapshot.val();
+            var meal = parseInt(val["meal"]);
             dataARR[meal] += 1;
         });
-    }
-    drawChart(dataARR, 'chart_div', 'Summary of the Banquet');
-    }
+        drawChart(dataARR, 'chart_div', 'Summary of All Banquet');
+    });
+}
 
 function drawChart(data_array, htmlID, chartName) {
-    data_array.sort(function(a, b){return b.won - a.won});
     var data = new google.visualization.DataTable();
     data.addColumn('string', "Meal");
     data.addColumn('number', "Number of Orders");
@@ -34,7 +37,7 @@ function drawChart(data_array, htmlID, chartName) {
     for (var i = 0; i < 4; i++) {
         for (var j = 0; j < 2; j++) {
             if (j == 0) {
-                var tmp = i+1;
+                var tmp = "Meal " + (i+1);
             }
             else {
                 var tmp = data_array[i];
@@ -51,9 +54,10 @@ function drawChart(data_array, htmlID, chartName) {
         },
         vAxis: {
           title: 'Meal'
-        }
+        },
+        is3D: true,
+        backgroundColor: '#E4E4E4'
     };
-
     var chart = new google.visualization.BarChart(document.getElementById(htmlID));
     chart.draw(data, options);
 }

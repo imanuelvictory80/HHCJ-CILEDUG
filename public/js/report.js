@@ -9,6 +9,7 @@ function printPDF() {
     var selchbox = [];        // array that will store the value of selected checkboxes
     var inpfields = document.getElementsByTagName('input');
     var nr_inpfields = inpfields.length;
+    var ycount = 20;
 
     // traverse the inpfields elements, and adds the value of selected (checked) checkbox in selchbox
     for(var i=0; i<nr_inpfields; i++) {
@@ -17,29 +18,33 @@ function printPDF() {
     
     //Read data from the database
     var dataARR = new Array(100);
-    for (i = 0; i < 100; i++) {
-        dataARR = new Array(100);
-    }
-    var ycount = 20;
-    var database = firebase.database();
-    for (i = 0; i < selchbox.length; i++) {
-        var attendee = database.ref('banquet/' + selchbox[i].toString() + '/attendees');
-        attendee.forEach(function(snapshot) {
-            var table = snapshot.val().table;
-            var meal = snapshot.val().meal;
-            dataARR[table][meal] += 1;
-        });
-        doc.text(10, ycount, "For banquet " + selchbox[i].toString()); ycount += 5;
-        for (j = 0; j < 100; j++) {
-            for (k = 0; k < 100; k++)
-                if (dataARR[j][k] > 0) {
-                    doc.text(10, ycount, "For table " + j.toString() + " ," + dataARR[j][k].toString() + " meal " + k.toString() + " is ordered.");
-                    ycount +=5 ;
-                }
-                
+    for (var i = 0; i < 101; i++) {
+        dataARR[i] = new Array(100);
+        for (var j = 0; j < 100; j++) {
+            dataARR[i][j] = 0;
         }
     }
-    
-    //Create PDF as needed
-    doc.save();
+
+    var database = firebase.database();
+    var attendee = database.ref('users').orderByKey();
+    attendee.on("value", function (snapshot) {
+        snapshot.forEach(function (childSnapshot) {
+            var val = childSnapshot.val();
+            var table = 1;
+            var meal = parseInt(val["meal"]);
+            dataARR[table][meal] += 1;
+            dataARR[100][1] = -1;
+        });
+        doc.text(10, ycount, "For banquet " ); ycount += 5;
+        for (var j = 0; j < 100; j++) {
+            for (var k = 0; k < 100; k++) {
+                if (dataARR[j][k] > 0) {
+                    doc.text(10, ycount, "For table " + j + ", " + dataARR[j][k] + " meal " + k + " is ordered.");
+                    ycount +=5 ;
+                }
+            }
+        }
+        //Create PDF as needed
+        doc.save();
+    });
 }
