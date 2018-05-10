@@ -32,8 +32,12 @@ firebase.auth().onAuthStateChanged(function(user) {
 		// ...
 	} else {
 		// User is signed out.
-		adminEmail='';
-		alert('Administrator signed out.');
+        adminEmail='';
+        // DEBUG:
+        // ORIGINALLY:
+        // self.location='index.html';
+        // alert('Administrator signed out.');
+        
 		/*var strUrl=window.location.href;
 		var arrUrl=strUrl.split("/");
 		var strPage=arrUrl[arrUrl.length-1];
@@ -42,7 +46,6 @@ firebase.auth().onAuthStateChanged(function(user) {
 			self.location='index.html';
 		}*/
 		//loginPageCheck();
-		self.location='index.html';
 	}
 });
 
