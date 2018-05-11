@@ -62,16 +62,24 @@ function loadAdminUsers(){
             for (var key in dbreturn){
                 // var banquetName = dbreturn1[].name;
                 var banquetId = dbreturn[key].banquet;
-                var banquetName = dbreturn1[banquetId].name;
+                if (dbreturn1[banquetId] === undefined){
+                    var banquetName = 'Banquet Name';
+                } else {
+                    var banquetName = dbreturn1[banquetId].name;
+                }
                 var ops = [];
                 ops.push({
                     name: 'Edit/Delete',
                     url: 'admin-user-detail.html?id='+key
                 });
+                ops.push({
+                    name: 'All Banquets He/She Joined',
+                    url: 'admin-user-detail.html?id='+key
+                });
                 dbreturn[key].ops = ops;
                 dbreturn[key].name = dbreturn[key].first_name + ' ' + dbreturn[key].last_name.toUpperCase();
                 dbreturn[key].banquetAndType = banquetName + '('+dbreturn[key].banquet+')' + ' as ' + dbreturn[key].type;
-                dbreturn[key]['showInfoAttr'] = ['email','meal','banquetAndType','drink'];
+                dbreturn[key]['showInfoAttr'] = ['email','meal','banquetAndType','drink','seat'];
             }
             document.getElementById("show-users-admin").setAttribute("banquets", JSON.stringify(dbreturn));
         });
@@ -123,12 +131,6 @@ function loadBanquetInfo(id){
         document.getElementById("loader").style="display:none;"
         // document.getElementById("show-users-admin").setAttribute("banquets", JSON.stringify(dbreturn));
     });
-}
-
-function deleteBanquet(id){
-    console.log("deleteinside");
-    var allBanquetRef = db.ref('banquet');
-    allBanquetRef.child(id).remove();
 }
 
 function mealNumChange(c){

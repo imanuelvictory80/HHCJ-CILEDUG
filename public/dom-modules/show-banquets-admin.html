@@ -73,13 +73,6 @@
         </style>
         <div class="tabtitle" class="container">
             <div class="row align-items-center">
-                <!-- <paper-dropdown-menu label="Select information shown in the table" class="col-5">
-                    <div class="dropdown-content checkbox-group" slot="dropdown-content">
-                        <template is="dom-repeat" items={{_info_list}} as="info_name">
-                            <paper-checkbox on-change="checkboxChanged" id="{{info_name}}" checked>{{info_name}}</paper-checkbox>
-                        </template>
-                    </div>
-                </paper-dropdown-menu> -->
                 <paper-button on-click="download" class="custom indigo" raised >
                     <iron-icon icon="icons:print" class="mr-1"></iron-icon>
                     Print Friendly
@@ -88,7 +81,14 @@
                     <iron-icon icon="icons:file-upload" class="mr-1"></iron-icon>
                     Import Attendees
                 </paper-button>
-                <paper-input class="col" label="Search the result by typing the name you want" on-input="changeSearch" id="searchinput" value="{{searchQuery}}">
+                <paper-dropdown-menu label="Search criteria" class="col">
+                    <div class="dropdown-content checkbox-group" slot="dropdown-content">
+                        <template is="dom-repeat" items={{_info_list}} as="info_name">
+                            <paper-checkbox on-change="checkboxChanged" id="{{info_name}}" checked>{{info_name}}</paper-checkbox>
+                        </template>
+                    </div>
+                </paper-dropdown-menu>
+                <paper-input class="col" label="Type here to search" on-input="changeSearch" id="searchinput" value="{{searchQuery}}">
                     <iron-icon icon="search" slot="suffix"></iron-icon>
                 </paper-input>
                 <paper-toggle-button checked="{{showStat}}" class="col-2" checked>Operations</paper-toggle-button>
@@ -98,7 +98,7 @@
         <table class='table table-hover mt-3' id="main-table">
             <thead>
                 <tr>
-                    <th>Banquet Name
+                    <th>Name
                         <paper-icon-button id="banquetNameSortBtn" icon="av:sort-by-alpha" style="color: grey;" on-click="sort"></paper-icon-button>
                         <paper-tooltip for="banquetNameSortBtn" offset="10" position="bottom">Sort the table: A-Z of banquet name</paper-tooltip>
                     </th>
@@ -212,17 +212,38 @@
                     var innerjson = value[key];
                     innerjson['key'] = key;
                     var newjsontemp = [];
-                    for (var key1 in innerjson){
-                        if (this.include(value[key]['showInfoAttr'], key1)){ //only show the ones that allow to show
+                    var tempForSearch = innerjson['name'];
+                    for (var key1 in value[key]['showInfoAttr']){
+                        var nameOfThisKey = value[key]['showInfoAttr'][key1];
+                        // console.log(innerjson[nameOfThisKey]);
+                        if (innerjson[nameOfThisKey] != undefined){
                             var tempJson = {
-                                'key': key1,
-                                'value': innerjson[key1]
-                            }
+                                'key': nameOfThisKey,
+                                'value': innerjson[nameOfThisKey]
+                            };
+                            newjsontemp.push(tempJson);
+                        } else {
+                            var tempJson = {
+                                'key': nameOfThisKey,
+                                'value': '--'
+                            };
                             newjsontemp.push(tempJson);
                         }
+                        tempForSearch += ' '+innerjson[nameOfThisKey];
                     }
-                    innerjson['info'] = newjsontemp
-                    innerjson['filter_info'] = newjsontemp
+                    // for (var key1 in innerjson){
+                    //     // allKeyList.push(key1);
+                    //     if (this.include(value[key]['showInfoAttr'], key1)){ //only show the ones that allow to show
+                    //         var tempJson = {
+                    //             'key': key1,
+                    //             'value': innerjson[key1]
+                    //         }
+                    //         newjsontemp.push(tempJson);
+                    //     }
+                    // }
+                    innerjson['info'] = newjsontemp;
+                    innerjson['filter_info'] = newjsontemp;
+                    innerjson['for_search'] = tempForSearch;
                     outputarray.push(innerjson);
                 }
                 for (var key1 in outputarray[0]){
@@ -230,12 +251,12 @@
                         info_list.push(key1);
                     }
                 }
-                // console.log(info_list);
-                console.log(outputarray);
+                // console.log(outputarray);
                 this.set('_banquets_array', outputarray);
                 this.set('_banquets_array_all', outputarray);
                 this.set('_banquets_array_sample', outputarray[0]);
                 this.set('_info_list', info_list);
+                this._info_list.push('name');
                 this.set('_selected_info_list', this._info_list);
             }
 
@@ -262,6 +283,41 @@
             //     console.log(this._banquets_array);
             //     // return new_banquet_array_by_info;
             // }
+            
+            updateSearchFilter(value){
+                // value: _selected_info_list
+                for (var key in this._banquets_array){
+                    var newSearchText = "";
+                    for (var key1 in value){
+                        // console.log(value[key1]);
+                        newSearchText += ' '+this._banquets_array[key][value[key1]];
+                    }
+                    this._banquets_array[key].for_search = newSearchText;
+                }
+                // console.log(this._banquets_array);
+                // this._banquets_array.filter_info
+                // console.log(this._banquets_array_all);
+                // var new_banquet_array_by_info = this._banquets_array_all;
+                // var return_set = new Set(value);
+                // for (var key in this._banquets_array_all){
+                //     new_banquet_array_by_info[key].info = [];
+                //     console.log('00', this._banquets_array_all[key].info);
+                //     for (var item in this._banquets_array_all[key].info){
+                //         // if (return_set.has(this._banquets_array_all[key].info[item].key)){
+                //             console.log(this._banquets_array_all[key].info[item].key);
+                //             var temp = new_banquet_array_by_info[key].info
+                //             temp.push(11);
+                //             console.log(temp);
+                //             new_banquet_array_by_info[key].filter_info = temp;
+                //         // }
+                //     }
+                // }                
+                // this.notifySplices('_banquets_array', new_banquet_array_by_info);
+                // this.notifySplices('_banquets_array_sample', new_banquet_array_by_info[0]);
+                // console.log(this._banquets_array_sample);
+                // console.log(this._banquets_array);
+                // return new_banquet_array_by_info;
+            }
 
             sort(event){
                 var pathId = event.path[2].id;
@@ -289,7 +345,7 @@
                 var q = this.searchQuery.toLowerCase();
                 var new_banquet_array_by_search = this._banquets_array_all.filter(function (el) {
                     // return el.userID.toLowerCase().substring(0,q.length) === q; // check prefix
-                    return el.name.toLowerCase().indexOf(q) > -1; // check contain
+                    return el.for_search.toLowerCase().indexOf(q) > -1; // check contain
                 });
                 this.set('_banquets_array', new_banquet_array_by_search);
             }
@@ -303,7 +359,7 @@
                     var temp = this._selected_info_list;
                     var new_selected_assigns = this.addSelectedAssignToList(temp,hwname);
                     this.set('_selected_info_list',new_selected_assigns);
-                    this.updateInfoList();
+                    this.updateSearchFilter(this._selected_info_list);
                 } else {
                     // if the event is unchecking a checkbox
                     // console.log('unchecked',event.path[0].id);
@@ -311,7 +367,7 @@
                     var temp = this._selected_info_list;
                     var new_selected_assigns = this.removeSelectedAssignToList(temp,hwname);
                     this.set('_selected_info_list',new_selected_assigns);
-                    this.updateFilter(this._selected_info_list);
+                    this.updateSearchFilter(this._selected_info_list);
                 }
             }
 

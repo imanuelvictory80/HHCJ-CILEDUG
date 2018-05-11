@@ -186,14 +186,7 @@
         loadBanquetInfo(banquetId);
         function deleteBanquet(){
             var okornot = confirm("DANGER!\n Do you want to delete banquet "+banquetId+" ? \n Press OK to confirm.");
-            // if (confirm("DANGER!\n Do you want to delete banquet "+banquetId+" ? \n Press OK to confirm.")) {
-            //     if (confirm("DANGER AGAIN!\n Do you really want to delete banquet "+banquetId+" ? \n Press OK to confirm.")) {
-            //         console.log("hhaha");
-            //         deleteBanquet(banquetId);
-            //     }
-            // }
             if (okornot){
-                // deleteBanquet(banquetId);
                 var allBanquetRef = db.ref('banquet');
                 allBanquetRef.child(banquetId).remove();
                 alert("Banquet is deleted.")
