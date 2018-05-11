@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
     <link rel="import" href="dom-modules/show-banquets-admin.html">
-    <link rel="import" href="dom-modules/show-users-admin.html">
     <script src="https://code.jquery.com/jquery.js"></script>
     <!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"> -->
     <!-- <script src="js/bootstrap.min.js"></script> -->
@@ -40,7 +39,6 @@
     <link href="css/mainstyle.css" rel="stylesheet">
     <link href="https://cdn.bootcss.com/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css" rel="stylesheet">
     
-
 </head>
 <body onload="loadAdminBanquets();">
     <br/>
@@ -51,8 +49,8 @@
             <div class="col-lg-1 col-xl-1"></div>
             <div class="col-1" style="text-align: left;">
                 <button type="button" class="btn-lg btn-outline-dark square-btn" 
-                onclick="javascript: window.location.href='index.html'">
-                    <span class="oi oi-home"></span>
+                onclick="javascript: window.history.go(-1);">
+                    <span class="oi oi-chevron-left"></span>
                 </button>
             </div>
             <div class="col reminder" style="text-align: center; display:inline-block;">

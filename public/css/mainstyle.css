@@ -257,6 +257,21 @@ button.square-btn{
 	font-weight: bold;
 }
 
+.delete-btn{
+	border: 1px solid var(--black8);
+	margin: 0 auto;
+	padding: 0;
+	min-width: 50px;
+	width: 80%;
+	max-width: 250px;
+	min-height: 30px;
+	height: 40px;
+	max-height: 50px;
+	background: red;
+	color: white;
+	font-weight: bold;
+}
+
 span,a{
 	display: inline-block;
 }

@@ -41,7 +41,11 @@ function loadAdminBanquets(){
             });
             ops.push({
                 name: 'Attendees',
-                url: 'admin-banquet-detail-users.html?id='+key
+                url: 'admin-users.html?searchCriteria=banquetAndType&searchQuery='+key
+            });
+            ops.push({
+                name: 'Seating Plan',
+                url: 'seatingplan-generation.html?bid='+key
             });
             dbreturn[key].ops = ops;
             dbreturn[key]['showInfoAttr'] = ['beginTime','endTime','location','meal1','meal2','meal3','meal4'];
@@ -50,7 +54,11 @@ function loadAdminBanquets(){
     });
 }
 
-function loadAdminUsers(){
+function loadAdminUsers(searchCriteria, searchQuery){
+    var searchByURLJson = {
+        'searchCriteria': searchCriteria,
+        'searchQuery': searchQuery
+    }
     db.ref('users').on('value', function(snapshot) {
         var dbreturn = snapshot.val();
         db.ref('banquet').on('value', function(snapshot1) {
@@ -58,17 +66,27 @@ function loadAdminUsers(){
             for (var key in dbreturn){
                 // var banquetName = dbreturn1[].name;
                 var banquetId = dbreturn[key].banquet;
-                var banquetName = dbreturn1[banquetId].name;
+                if (dbreturn1[banquetId] === undefined){
+                    var banquetName = 'Banquet Name';
+                } else {
+                    var banquetName = dbreturn1[banquetId].name;
+                }
                 var ops = [];
                 ops.push({
                     name: 'Edit/Delete',
                     url: 'admin-user-detail.html?id='+key
                 });
+                ops.push({
+                    name: 'All Banquets He/She Joined',
+                    url: 'admin-users.html?searchCriteria=email&searchQuery='+dbreturn[key].email
+                });
                 dbreturn[key].ops = ops;
                 dbreturn[key].name = dbreturn[key].first_name + ' ' + dbreturn[key].last_name.toUpperCase();
                 dbreturn[key].banquetAndType = banquetName + '('+dbreturn[key].banquet+')' + ' as ' + dbreturn[key].type;
-                dbreturn[key]['showInfoAttr'] = ['email','meal','banquetAndType','drink'];
+                dbreturn[key]['showInfoAttr'] = ['email','meal','banquetAndType','drink','seat','company'];
             }
+            dbreturn["searchByURL"] = searchByURLJson;
+            // document.getElementById("show-users-admin").setAttribute("searchByURL", JSON.stringify(searchByURLJson));
             document.getElementById("show-users-admin").setAttribute("banquets", JSON.stringify(dbreturn));
         });
     });
@@ -186,7 +204,7 @@ function dbUpdateBanquet(id){
         meal3: meal3,
         meal4: meal4
     }).then(res => {
-        alert("The new banquet is created!");
+        alert("The new banquet is updated!");
     });
 }
 
