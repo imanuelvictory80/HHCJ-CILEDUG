@@ -207,44 +207,49 @@
                 var outputarray = [];
                 var info_list = [];
                 var showInfoAttr = [];
+                var searchJson = {};
                 for (var key in value){
-                    showInfoAttr = value[key]['showInfoAttr'];
-                    var innerjson = value[key];
-                    innerjson['key'] = key;
-                    var newjsontemp = [];
-                    var tempForSearch = innerjson['name'];
-                    for (var key1 in value[key]['showInfoAttr']){
-                        var nameOfThisKey = value[key]['showInfoAttr'][key1];
-                        // console.log(innerjson[nameOfThisKey]);
-                        if (innerjson[nameOfThisKey] != undefined){
-                            var tempJson = {
-                                'key': nameOfThisKey,
-                                'value': innerjson[nameOfThisKey]
-                            };
-                            newjsontemp.push(tempJson);
-                        } else {
-                            var tempJson = {
-                                'key': nameOfThisKey,
-                                'value': '--'
-                            };
-                            newjsontemp.push(tempJson);
+                    if (key === 'searchByURL'){
+                        searchJson = value[key];
+                    } else {
+                        showInfoAttr = value[key]['showInfoAttr'];
+                        var innerjson = value[key];
+                        innerjson['key'] = key;
+                        var newjsontemp = [];
+                        var tempForSearch = innerjson['name'];
+                        for (var key1 in value[key]['showInfoAttr']){
+                            var nameOfThisKey = value[key]['showInfoAttr'][key1];
+                            // console.log(innerjson[nameOfThisKey]);
+                            if (innerjson[nameOfThisKey] != undefined){
+                                var tempJson = {
+                                    'key': nameOfThisKey,
+                                    'value': innerjson[nameOfThisKey]
+                                };
+                                newjsontemp.push(tempJson);
+                            } else {
+                                var tempJson = {
+                                    'key': nameOfThisKey,
+                                    'value': '--'
+                                };
+                                newjsontemp.push(tempJson);
+                            }
+                            tempForSearch += ' '+innerjson[nameOfThisKey];
                         }
-                        tempForSearch += ' '+innerjson[nameOfThisKey];
+                        // for (var key1 in innerjson){
+                        //     // allKeyList.push(key1);
+                        //     if (this.include(value[key]['showInfoAttr'], key1)){ //only show the ones that allow to show
+                        //         var tempJson = {
+                        //             'key': key1,
+                        //             'value': innerjson[key1]
+                        //         }
+                        //         newjsontemp.push(tempJson);
+                        //     }
+                        // }
+                        innerjson['info'] = newjsontemp;
+                        innerjson['filter_info'] = newjsontemp;
+                        innerjson['for_search'] = tempForSearch;
+                        outputarray.push(innerjson);
                     }
-                    // for (var key1 in innerjson){
-                    //     // allKeyList.push(key1);
-                    //     if (this.include(value[key]['showInfoAttr'], key1)){ //only show the ones that allow to show
-                    //         var tempJson = {
-                    //             'key': key1,
-                    //             'value': innerjson[key1]
-                    //         }
-                    //         newjsontemp.push(tempJson);
-                    //     }
-                    // }
-                    innerjson['info'] = newjsontemp;
-                    innerjson['filter_info'] = newjsontemp;
-                    innerjson['for_search'] = tempForSearch;
-                    outputarray.push(innerjson);
                 }
                 for (var key1 in outputarray[0]){
                     if (this.include(showInfoAttr, key1)){
@@ -258,6 +263,7 @@
                 this.set('_info_list', info_list);
                 this._info_list.push('name');
                 this.set('_selected_info_list', this._info_list);
+                this.preDefinedSearch(searchJson);
             }
 
             // updateFilter(value){
@@ -341,13 +347,22 @@
                 this.notifySplices('_banquets_array', new_banquet_array_sorted);
             }
 
-            changeSearch(event){
+            changeSearch(){
                 var q = this.searchQuery.toLowerCase();
                 var new_banquet_array_by_search = this._banquets_array_all.filter(function (el) {
                     // return el.userID.toLowerCase().substring(0,q.length) === q; // check prefix
                     return el.for_search.toLowerCase().indexOf(q) > -1; // check contain
                 });
                 this.set('_banquets_array', new_banquet_array_by_search);
+            }
+
+            preDefinedSearch(value){
+                // console.log(value.searchCriteria);
+                // console.log(value.searchQuery);
+                this.searchQuery = value.searchQuery;
+                if (this.searchQuery != undefined){
+                    this.changeSearch();
+                }
             }
 
             checkboxChanged(event){

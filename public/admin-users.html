@@ -38,10 +38,16 @@
     <script type="text/javascript" src="index.js"></script>
     <link href="css/mainstyle.css" rel="stylesheet">
     <link href="https://cdn.bootcss.com/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css" rel="stylesheet">
-    
+    <script>
+        var url = new URL(window.location.href);
+        var searchCriteria = url.searchParams.get("searchCriteria");
+        var searchQuery = url.searchParams.get("searchQuery");
+        // console.log(searchCriteria);
+        // console.log(searchQuery);
+    </script>
 
 </head>
-<body onload="loadAdminUsers();">
+<body onload="loadAdminUsers(searchCriteria, searchQuery)">
     <br/>
     <script language="JavaScript">headBar();</script>
     <br/>
