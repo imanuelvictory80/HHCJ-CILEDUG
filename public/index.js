@@ -44,8 +44,8 @@ function loadAdminBanquets(){
                 url: 'admin-banquet-detail-users.html?id='+key
             });
             ops.push({
-                name: 'Generate Seating Plan',
-                url: 'import-csv.html'
+                name: 'Seating Plan',
+                url: 'seatingplan-generation.html?bid='+key
             });
             dbreturn[key].ops = ops;
             dbreturn[key]['showInfoAttr'] = ['beginTime','endTime','location','meal1','meal2','meal3','meal4'];
@@ -125,6 +125,12 @@ function loadBanquetInfo(id){
     });
 }
 
+function deleteBanquet(id){
+    console.log("deleteinside");
+    var allBanquetRef = db.ref('banquet');
+    allBanquetRef.child(id).remove();
+}
+
 function mealNumChange(c){
     var t = "Please input meal ID";
     if (include(mealIDs, c.value)){
@@ -190,7 +196,7 @@ function dbUpdateBanquet(id){
         meal3: meal3,
         meal4: meal4
     }).then(res => {
-        alert("The new banquet is created!");
+        alert("The new banquet is updated!");
     });
 }
 

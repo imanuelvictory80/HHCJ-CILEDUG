@@ -58,7 +58,7 @@
     <script type="text/javascript">headBar();</script>
     <br/>
     <div class="container" id="form-container">
-        <form id="create-banquet" method="GET" onsubmit="dbUpdateBanquet(banquetId);">
+        <div id="create-banquet">
 
         <!-- ====== ROW2: Personal information ====== -->
 
@@ -66,7 +66,7 @@
             <div class="col-lg-1 col-xl-1"></div>
             <div class="col-1" style="text-align: left;">
                 <button type="button" class="btn-lg btn-outline-dark square-btn" 
-                onclick="javascript:if(confirm('Are you sure to go to homepage? This unfinished sheet may be cleaned.')) {window.onbeforeunload = null; self.location='manage.html';}">
+                onclick="javascript: window.history.go(-1);">
                     <span class="oi oi-chevron-left"></span>
                 </button>
             </div>
@@ -167,10 +167,11 @@
 
         <div class="row row0">
             <!-- <button type="submit" id="submit-btn" class="btn btn-secondary next-btn" onclick="javascript: window.onbeforeunload = null;">Submit</button> -->
-            <button type="submit" id="submit-btn" class="btn btn-secondary next-btn">Submit</button>
+            <button id="delete-btn" class="btn btn-danger delete-btn" onclick="deleteBanquet()">DELETE</button>
+            <button type="button" id="submit-btn" class="btn btn-secondary next-btn" onclick="dbUpdateBanquet(banquetId)">Change</button>
         </div>
 
-        </form>
+        </div>
     </div>
 
     <br/>
@@ -183,6 +184,22 @@
         var banquetId = url.searchParams.get("id");
         console.log(banquetId);
         loadBanquetInfo(banquetId);
+        function deleteBanquet(){
+            var okornot = confirm("DANGER!\n Do you want to delete banquet "+banquetId+" ? \n Press OK to confirm.");
+            // if (confirm("DANGER!\n Do you want to delete banquet "+banquetId+" ? \n Press OK to confirm.")) {
+            //     if (confirm("DANGER AGAIN!\n Do you really want to delete banquet "+banquetId+" ? \n Press OK to confirm.")) {
+            //         console.log("hhaha");
+            //         deleteBanquet(banquetId);
+            //     }
+            // }
+            if (okornot){
+                // deleteBanquet(banquetId);
+                var allBanquetRef = db.ref('banquet');
+                allBanquetRef.child(banquetId).remove();
+                alert("Banquet is deleted.")
+                window.location.href = 'admin-banquets.html';
+            }
+        }
     </script>
 </body>
 </html>

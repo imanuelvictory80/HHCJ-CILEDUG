@@ -11,6 +11,7 @@
 <link rel="import" href="../bower_components/neon-animation/web-animations.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 
+
 <dom-module id="show-banquets-admin"> 
     <template>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
@@ -79,8 +80,14 @@
                         </template>
                     </div>
                 </paper-dropdown-menu> -->
-                <paper-button on-click="download" class="custom indigo" raised >Print Friendly</paper-button>
-                <paper-button class="custom indigo" raised>Import Attendees</paper-button>
+                <paper-button on-click="download" class="custom indigo" raised >
+                    <iron-icon icon="icons:print" class="mr-1"></iron-icon>
+                    Print Friendly
+                </paper-button>
+                <paper-button onclick="javascript:window.location.href='import-csv.html'" class="custom indigo" raised>
+                    <iron-icon icon="icons:file-upload" class="mr-1"></iron-icon>
+                    Import Attendees
+                </paper-button>
                 <paper-input class="col" label="Search the result by typing the name you want" on-input="changeSearch" id="searchinput" value="{{searchQuery}}">
                     <iron-icon icon="search" slot="suffix"></iron-icon>
                 </paper-input>
