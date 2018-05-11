@@ -59,7 +59,13 @@
             <div class="col-lg-1 col-xl-1"></div>
         </div>
         <div class="row"><div style="height:10px"></div></div>
-        <div class="row row1">
+
+        <div id="choicesCheckboxes" class="mt-3 mb-3">
+            <paper-spinner active></paper-spinner>
+            Loading current banquets ...
+        </div>
+
+        <!-- <div class="row row1">
             <div class="col-lg-1 col-xl-1"></div>
             <div class="col-12 col-lg-10 col-xl-10">
                 <form id="banquet-filter">
@@ -194,8 +200,38 @@
         </div>
         
         </form>
+    <br/>
+    <div id="report" style="display: none;">
+        <div class="row justify-content-center">
+            <div class="btn-group ml-3" role="group" aria-label="Navigation to Different Report Part">
+                <a href="#chart-meal"><button type="button" class="btn btn-secondary">Chart for Meal Number</button></a>
+                <a href="#chart-drink"><button type="button" class="btn btn-secondary">Chart for Drink Number</button></a>
+                <a href="#table-meal"><button type="button" class="btn btn-secondary">Table for Meal Distribution</button></a>
+                <a href="#table-drink"><button type="button" class="btn btn-secondary">Table for Drink Distribution</button></a>
+            </div>
+        </div>
+        <div class="row">
+            <button type="button" class="btn btn-secondary next-btn mt-3" id="print-btn" style="max-width: 450px;" onclick="javascript:window.print();">Print</button>
+        </div>
+        <article id="chart-meal">
+            <h4 class="mt-3">Chart for Meal Number</h4>
+            <div id="chart-meal-inside" class="center-div mt-3"></div>
+        </article>
+        <article id="chart-drink">
+            <h4 class="mt-3">Chart for Drink Number</h4>
+            <div id="chart-drink-inside" class="center-div mt-3"></div>
+        </article>
+        <article id="table-meal">
+            <h4 class="mt-3">Table for Meal Distribution</h4>
+            <div id="table-meal-report"></div>
+        </article>
+        <article id="table-drink">
+            <h4 class="mt-3">Table for Drink Distribution</h4>
+            <div id="table-drink-report"></div>
+        </article>
     </div>
-
+    </div>
+    </body>
     <br/>
     <br/>
     <br/>
