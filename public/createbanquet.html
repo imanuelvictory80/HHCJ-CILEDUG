@@ -21,20 +21,13 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
 
-    <!-- Firebase -->
-    <!-- update the version number as needed -->
-    <script defer src="/__/firebase/4.11.0/firebase-app.js"></script>
-    <!-- include only the Firebase features as you need -->
-    <script defer src="/__/firebase/4.11.0/firebase-auth.js"></script>
-    <script defer src="/__/firebase/4.11.0/firebase-database.js"></script>
-    <script defer src="/__/firebase/4.11.0/firebase-messaging.js"></script>
-    <script defer src="/__/firebase/4.11.0/firebase-storage.js"></script>
-    <!-- initialize the SDK after all desired features are loaded -->
-    <script defer src="/__/firebase/init.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/4.11.0/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
+    <!-- Firebase UI -->
+    <script type="text/javascript" src="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.css" />
 
     <script type="text/javascript" src ="js/main.js"></script>
-    <script type="text/javascript" src ="index.js"></script>
+    <script language="JavaScript" src ="js/auth.js"></script>
     <script type="text/javascript" src ="js/banquet-form.js"></script>
     <script type="text/javascript" src ="js/bootstrap-datetimepicker.min.js"></script>
     <link href="css/mainstyle.css" rel="stylesheet"/>
@@ -56,7 +49,7 @@
     <script type="text/javascript">headBar();</script>
     <br/>
     <div class="container" id="form-container">
-        <form id="create-banquet" method="GET" onsubmit="dbCreateBanquet();">
+        <form id="create-banquet" method="GET" onsubmit="alert('New banquet submitted!\n\nThe new banquet ID is [ 1029 ].');">
 
         <!-- ====== ROW2: Personal information ====== -->
 
@@ -83,7 +76,7 @@
                         <span class="oi oi-bell"></span>&nbsp;&nbsp;Banquet Information
                     </button>
                     <div class="input-group mb-3"><div class="input-group-prepend">
-                        <span class="input-group-text">Name</span></div>
+                        <span class="input-group-text">Banquet Title</span></div>
                         <input type="text" class="form-control" name="banquet-title" id="banquet-title" required="required" placeholder=""/>
                     </div>
                     <div class="input-group mb-3"><div class="input-group-prepend">
@@ -94,10 +87,10 @@
                         <span class="input-group-text">End Time</span></div>
                         <input type="text" class="form-control time-selector" name="end-time" id="end-time" required="required" placeholder="Please Select ..."/>
                     </div>
-                    <!-- <div class="input-group mb-3"><div class="input-group-prepend">
+                    <div class="input-group mb-3"><div class="input-group-prepend">
                         <span class="input-group-text">Address</span></div>
                         <input type="text" class="form-control" name="address" id="address" required="required" placeholder=""/>
-                    </div> -->
+                    </div>
                     <div class="input-group mb-3"><div class="input-group-prepend">
                         <span class="input-group-text">Location</span></div>
                         <input type="text" class="form-control" name="location" id="location" required="required" placeholder=""/>
@@ -122,35 +115,25 @@
                     <button type="button" class="btn btn-light subtitle-btn">
                         <span class="oi oi-list-rich"></span>&nbsp;&nbsp;Meal Choice
                     </button>
-                    <p>Available meals that can be provided by the kitchen, please choose from them to arrange meal choices for this banquet:</p>
-                    <div id="meal-choices" class="mb-3">
-                        <div class="card" style="width: 18rem;">
-                            <div class="card-body">
-                                <h5 class="card-title">Loading available meal choices from database ...</h5>
-                                <h6 class="card-subtitle mb-2 text-muted"></h6>
-                                <p class="card-text"></p>
-                            </div>
-                        </div>
-                    </div>
                     <div class="input-group mb-3"><div class="input-group-prepend">
                         <span class="input-group-text">Meal 01</span></div>
                         <input type="number" class="form-control meal-num" oninput="mealNumChange(this);" name="meal1" id="meal1" required="required" placeholder=""/>
-                        <input class="form-control meal-display" type="text" id="meal1-display" placeholder="Please input meal ID" readonly/>
+                        <input class="form-control meal-display" type="text" id="meal1-display" placeholder="Please input 8-digit meal number." readonly/>
                     </div>
                     <div class="input-group mb-3"><div class="input-group-prepend">
                         <span class="input-group-text">Meal 02</span></div>
                         <input type="number" class="form-control meal-num" oninput="mealNumChange(this);" name="meal2" id="meal2" required="required" placeholder=""/>
-                        <input class="form-control meal-display" type="text" id="meal2-display" placeholder="Please input meal ID" readonly/>
+                        <input class="form-control meal-display" type="text" id="meal2-display" placeholder="Please input 8-digit meal number." readonly/>
                     </div>
                     <div class="input-group mb-3"><div class="input-group-prepend">
                         <span class="input-group-text">Meal 03</span></div>
                         <input type="number" class="form-control meal-num" oninput="mealNumChange(this);" name="meal3" id="meal3" required="required" placeholder=""/>
-                        <input class="form-control meal-display" type="text" id="meal3-display" placeholder="Please input meal ID" readonly/>
+                        <input class="form-control meal-display" type="text" id="meal3-display" placeholder="Please input 8-digit meal number." readonly/>
                     </div>
                     <div class="input-group mb-3"><div class="input-group-prepend">
                         <span class="input-group-text">Meal 04</span></div>
                         <input type="number" class="form-control meal-num" oninput="mealNumChange(this);" name="meal4" id="meal4" required="required" placeholder=""/>
-                        <input class="form-control meal-display" type="text" id="meal4-display" placeholder="Please input meal ID" readonly/>
+                        <input class="form-control meal-display" type="text" id="meal4-display" placeholder="Please input 8-digit meal number." readonly/>
                     </div>
                                             
                 </div>
@@ -158,8 +141,7 @@
         </div>
 
         <div class="row row0">
-            <!-- <button type="submit" id="submit-btn" class="btn btn-secondary next-btn" onclick="javascript: window.onbeforeunload = null;">Submit</button> -->
-            <button type="submit" id="submit-btn" class="btn btn-secondary next-btn">Submit</button>
+            <button type="submit" id="submit-btn" class="btn btn-secondary next-btn" onclick="javascript: window.onbeforeunload = null;">Submit</button>
         </div>
 
         </form>
@@ -168,7 +150,6 @@
     <br/>
     <br/>
     <br/>
-    <script type='text/javascript'>loadMeals();</script>
     <script type="text/javascript">btmNavBar();</script>
 </body>
 </html>
