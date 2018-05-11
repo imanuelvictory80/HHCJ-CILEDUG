@@ -6,35 +6,10 @@
     
     <!-- To adjust different kinds of devices -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <style>
-        #map {
-         height: 400px;
-         width: 50%;
-        }
-        .center-div
-    {
-        margin: 0 auto;
-        width: 100px; 
-    }
-     </style>
+    
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery.min.js"></script>
-
-
-    <!-- Firebase -->
-    <!-- update the version number as needed -->
-    <script defer src="/__/firebase/4.11.0/firebase-app.js"></script>
-    <!-- include only the Firebase features as you need -->
-    <script defer src="/__/firebase/4.11.0/firebase-auth.js"></script>
-    <script defer src="/__/firebase/4.11.0/firebase-database.js"></script>
-    <script defer src="/__/firebase/4.11.0/firebase-messaging.js"></script>
-    <script defer src="/__/firebase/4.11.0/firebase-storage.js"></script>
-    <!-- initialize the SDK after all desired features are loaded -->
-    <script defer src="/__/firebase/init.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/4.11.0/firebase.js"></script>
-    <script type="text/javascript" src="index.js"></script>
-
-
+    
     <!-- Bootstrap with js (bundle for popover)-->
     <link href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
@@ -139,26 +114,6 @@
             </div>
         </div>
     </div>
-    <div id="map" class="center-div"></div>
-    <br/>
-    <br/>
-    <br/>
-    <script>
-        function initMap() {
-          var uluru = {lat: 22.3007, lng: 114.1796};
-          var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 12,
-            center: uluru
-          });
-          var marker = new google.maps.Marker({
-            position: uluru,
-            map: map
-          });
-        }
-      </script>
-    <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAvVcHiEYejifctxBSNCMhTymO0VE1qRfs&callback=initMap">
-    </script>
     <br/>
     <br/>
     <br/>

@@ -12,7 +12,7 @@
 	--color02: #FFDF7B;
 	--color03: #BFAD75;
 	--color04: #A68728;
-	--color05: #641;
+	--color05: #642;
 	--color10: #FFE1B7;
 	--color11: #FFD59C;
 	--color12: #FFC87B;
@@ -201,6 +201,9 @@ button.big-main-btn{
 }
 #attendee-verification{
 	background-image: url("../img/attendeeverification.png");
+}
+#attendee-management{
+	background-image: url("../img/attendeemanagement.png");
 }
 #banquet-list{
 	background-image: url("../img/banquetsearch.png");
