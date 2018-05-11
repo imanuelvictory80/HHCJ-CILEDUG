@@ -83,3 +83,10 @@ function regSubmit(){
 	updates['/users/' + uid] = userInfo;
   	firebase.database().ref().update(updates);
 }
+
+function DeleteUser(){
+	if(!confirm("Are you sure to delete this record?")) return;
+	//firebase.database().ref("").childKey(uid).remove();
+	database.ref("users/"+uid).remove();
+	alert("This record has been removed.");
+}
