@@ -43,6 +43,10 @@ function loadAdminBanquets(){
                 name: 'Attendees',
                 url: 'admin-banquet-detail-users.html?id='+key
             });
+            ops.push({
+                name: 'Generate Seating Plan',
+                url: 'import-csv.html'
+            });
             dbreturn[key].ops = ops;
             dbreturn[key]['showInfoAttr'] = ['beginTime','endTime','location','meal1','meal2','meal3','meal4'];
         }
