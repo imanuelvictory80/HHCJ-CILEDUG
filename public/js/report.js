@@ -48,3 +48,14 @@ function printPDF() {
         doc.save();
     });
 }
+
+function startGenerateReport(){
+    var checkboxes = document.getElementsByClassName('banquetCheckbox');
+    var selectedBanquetsID = [];
+    for (var ele in checkboxes) {
+        if (checkboxes[ele].tagName && checkboxes[ele].checked) {
+            selectedBanquetsID.push(checkboxes[ele].id);
+        }
+    }
+    console.log('selected banquets', selectedBanquetsID);
+}

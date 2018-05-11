@@ -150,7 +150,8 @@ function checkP1(){
 function checkP2(){
 	var idlist = ["first-name","first-name","guest-type","ao","phone","email"];
 	var i;
-	var reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
+	//var reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
+	var reg = /^[A-Za-zd]+([-_.][A-Za-zd]+)*@([A-Za-zd]+[-.])+[A-Za-zd]{2,7}$/;
 	var tel = /^\d{8}$/;
 	for(i=0;i<idlist.length;i++){
 		if (document.getElementById(idlist[i]).value == null || document.getElementById(idlist[i]).value == "") {
@@ -173,6 +174,7 @@ function checkP2(){
 	}
 	$('.row2').hide(); $('.row3').show();
 }
+
 
 function checkP3(){
 	var mealflag = -1, drinkflag = -1;

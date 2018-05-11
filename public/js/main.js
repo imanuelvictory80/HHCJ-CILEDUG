@@ -43,7 +43,7 @@ function headBar(){
 	</nav>
 */
 
-function btmNavBar(t=''){
+function btmNavBar(t='',admin=false){
 	a = "";
 	a += '<nav class="navbar fixed-bottom navbar-expand-sm navbar-dark bg-dark">';
 	a += '    <a class="navbar-brand" href="index.html">Hotel ICONIA</a>';
@@ -52,8 +52,8 @@ function btmNavBar(t=''){
 	a += '    </button>';
 	a += '    <div class="collapse navbar-collapse" id="navbarCollapse">';
 	a += '        <ul class="navbar-nav mr-auto"><li class="nav-item active">';
-	a += '            <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>';
-	a += '        </li><li class="nav-item"><a class="nav-link" href="#">Link</a></li>';
+	a += '            <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a></li>';
+	if(admin)a += '        <li class="nav-item"><a class="nav-link" href="update-password.html">Modify Password</a></li>';
 	a += '<li class="nav-item dropup">';
 	a += '<a class="nav-link dropdown-toggle" id="dropdown10" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Contact Us</a>';
 	a += '<div class="dropdown-menu" aria-labelledby="dropdown10">';
@@ -65,9 +65,9 @@ function btmNavBar(t=''){
 	a += '</li>';
 	a += '<li class="nav-item">';
 	if(t!='')
-		a += '	<a id="manager-btn" class="nav-link disabled" onclick="javascript: Logout();"><span class="oi oi-key"></span><span id="admin-email"> ['+t+'] Logout</span></a>';
+		a += '	<a id="manager-btn" class="nav-link disabled" onclick="javascript: Logout();"><span class="oi oi-key"></span><span id="admin-email" sytle="font-size: 10px;"> ['+t+'] Logout</span></a>';
 	else
-		a += '	<a id="manager-btn" class="nav-link disabled" href="admin-login.html"><span class="oi oi-key"></span><span id="admin-email"> Admin Login</span></a>';
+		a += '	<a id="manager-btn" class="nav-link disabled" href="admin-login.html"><span class="oi oi-key"></span><span id="admin-email" sytle="font-size: 10px;"> Admin Login</span></a>';
 	a += '</li>';
 	a += '</ul>';
 	a += '</div>';
