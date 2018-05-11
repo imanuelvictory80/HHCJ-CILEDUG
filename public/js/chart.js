@@ -1,5 +1,5 @@
 google.charts.load('current', {packages: ['corechart', 'bar']});
-google.charts.setOnLoadCallback(drawBasic);
+// google.charts.setOnLoadCallback(drawBasic);
 
 function drawBasic() {
     //Check for checkboxes
@@ -25,26 +25,27 @@ function drawBasic() {
             var meal = parseInt(val["meal"]);
             dataARR[meal] += 1;
         });
-        drawChart(dataARR, 'chart_div', 'Summary of All Banquet');
+        drawChart(dataARR, 'chart_div', 'Summary of All Banquet', 'Meal');
     });
 }
 
-function drawChart(data_array, htmlID, chartName) {
-    var data = new google.visualization.DataTable();
-    data.addColumn('string', "Meal");
-    data.addColumn('number', "Number of Orders");
-    data.addRows(4);
-    for (var i = 0; i < 4; i++) {
-        for (var j = 0; j < 2; j++) {
-            if (j == 0) {
-                var tmp = "Meal " + (i+1);
-            }
-            else {
-                var tmp = data_array[i];
-            }
-            data.setCell(i, j, tmp); 
-        }
-    }
+function drawChart(data_array, htmlID, chartName, mealOrDrink) {
+    // var data = new google.visualization.DataTable();
+    // data.addColumn('string', mealOrDrink);
+    // data.addColumn('number', "Number of Orders");
+    // data.addRows(4);
+    // for (var i = 0; i < 4; i++) {
+    //     for (var j = 0; j < 2; j++) {
+    //         if (j == 0) {
+    //             var tmp = mealOrDrink + " " + (i+1);
+    //         }
+    //         else {
+    //             var tmp = data_array[i];
+    //         }
+    //         data.setCell(i, j, tmp); 
+    //     }
+    // }
+    var data = google.visualization.arrayToDataTable(data_array);
     var options = {
         title: chartName,
         chartArea: {width: '50%'},

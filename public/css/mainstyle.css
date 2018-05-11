@@ -257,6 +257,10 @@ button.square-btn{
 	font-weight: bold;
 }
 
+.middleSelector{
+    margin: 0 auto;
+}
+
 .delete-btn{
 	border: 1px solid var(--black8);
 	margin: 0 auto;
