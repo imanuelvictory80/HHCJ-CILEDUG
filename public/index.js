@@ -54,6 +54,17 @@ function loadAdminBanquets(){
     });
 }
 
+function loadReportBanquetChoices(){
+    db.ref('banquet').on('value', function(snapshot) {
+        var dbreturn = snapshot.val();
+        html = "";
+        for (var key in dbreturn){
+            html += '<paper-checkbox id="'+key+'" class="banquetCheckbox ml-3" checked>'+dbreturn[key].name+' ('+key+')</paper-checkbox>';
+        }
+        document.getElementById("choicesCheckboxes").innerHTML = html;
+    });
+}
+
 function loadAdminUsers(searchCriteria, searchQuery){
     var searchByURLJson = {
         'searchCriteria': searchCriteria,
