@@ -30,13 +30,17 @@
 
     <!-- User JSs and CSSs-->
     <script language="JavaScript" src ="js/main.js"></script>
+    <script type="text/javascript" src="index.js"></script>
     <script language="JavaScript" src ="js/banquet-list.js"></script>
     <link href="css/mainstyle.css" rel="stylesheet">
     <link href="https://cdn.bootcss.com/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css" rel="stylesheet">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <link rel="import" href="bower_components/paper-checkbox/paper-checkbox.html">
+    <link rel="import" href="bower_components/paper-spinner/paper-spinner.html">
     
 </head>
 
-<body>
+<body onload="loadReportBanquetChoices();">
     <br/>
     <script type="text/javascript">headBar();</script>
     <br/>
@@ -112,9 +116,9 @@
                     data-content="After click this buttom, the page will refresh and the banquets which are conform to the rules will be displayed below.">
                         <span class="oi oi-task"></span>&nbsp;&nbsp;Apply Banquet Filter
                     </button>
-                    <!--<button type="submit" class="btn btn-light btn-sm filter-btn">
+                    <button type="submit" class="btn btn-light btn-sm filter-btn">
                         <span class="oi oi-task"></span>&nbsp;&nbsp;Apply Banquet Filter
-                    </button>-->
+                    </button>
                 </div>
                 </form>
             </div>
@@ -194,12 +198,11 @@
                 </div>
             </div>
         </div>
+    -->
 
         <div class="row">
-            <button type="button" class="btn btn-secondary next-btn" id="generate-btn" style="max-width: 450px;" onclick="window.open('sample-report.pdf');">Generate Report for Selected Banquets</button>
+            <button type="button" class="btn btn-secondary next-btn" id="generate-btn" style="max-width: 450px;" onclick="startGenerateReport();">Generate Report for Selected Banquets</button>
         </div>
-        
-        </form>
     <br/>
     <div id="report" style="display: none;">
         <div class="row justify-content-center">
@@ -236,5 +239,7 @@
     <br/>
     <br/>
     <script type="text/javascript"> btmNavBar("1234");</script>
+    <script type="text/javascript" src="./js/report.js"></script>
+    <script type="text/javascript" src="./js/chart.js"></script>
 </body>
 </html>

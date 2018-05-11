@@ -115,7 +115,6 @@ async function countChoices(selectedBanquetsID){
         // console.log(mealReport);
         // console.log(drinkReport);
         postFilter(mealReport, drinkReport, selectedBanquetsID);
-        showReport(mealReport, drinkReport);
     });
 }
 
@@ -144,6 +143,8 @@ function postFilter(mealReport, drinkReport, selectedBanquetsID){
 }
 
 function showReport(mealReport, drinkReport){
+    // console.log(mealReport);
+    // console.log(drinkReport);
     var chart_array_meal = [];
     chart_array_meal.push(["Meal", "Amount Needed"]);
     var chart_array_drink = [];

@@ -5,8 +5,8 @@
     <title>Banquet Registration &amp; Managing System</title>
     <!-- To adjust different kinds of devices -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    
-    
+    <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="dom-modules/show-banquets-admin.html">
     <script src="https://code.jquery.com/jquery.js"></script>
     <!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"> -->
     <!-- <script src="js/bootstrap.min.js"></script> -->
@@ -24,12 +24,11 @@
     <![endif]-->
 
     <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
-    <!-- Firebase UI -->
     <script type="text/javascript" src="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.js"></script>
     <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.css" />
+    <script language="JavaScript" src ="js/auth.js"></script>
 
     <script language="JavaScript" src ="js/main.js"></script>
-    <script language="JavaScript" src ="js/auth.js"></script>
     <link href="css/mainstyle.css" rel="stylesheet">
     <link href="https://cdn.bootcss.com/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css" rel="stylesheet">
     
@@ -59,8 +58,9 @@
             <div class="col-lg-1 col-xl-1"></div>
             <div class="col-12 col-lg-10 col-xl-10">
                 <button type="button" class="btn btn-dark mid-main-btn" id="create-new-banquet" onclick="javascript:window.location.href='createbanquet.html'"></button> 
-                <button type="button" class="btn btn-dark mid-main-btn" id="attendee-management" onclick='f404();'></button> 
-                <button type="button" class="btn btn-dark mid-main-btn" id="banquet-list" onclick='f404();'></button> 
+                <!-- <button type="button" class="btn btn-dark mid-main-btn" id="attendee-verification" onclick='f404();'></button>  -->
+                <button type="button" class="btn btn-dark mid-main-btn" id="banquet-list" onclick="javascript:window.location.href='admin-banquets.html'"></button> 
+                <button type="button" class="btn btn-dark mid-main-btn" id="attendee-management" onclick="javascript:window.location.href='admin-users.html'"></button> 
                 <button type="button" class="btn btn-dark mid-main-btn" id="report-generation" onclick="javascript:window.location.href='generatereport.html'"></button> 
             </div>
             <div class="col-lg-1 col-xl-1"></div>
@@ -70,6 +70,6 @@
     <br/>
     <br/>
     <br/>
-    <script language="JavaScript">btmNavBar(adminEmail,true);</script>
+    <script language="JavaScript">btmNavBar(adminEmail);</script>
 </body>
 </html>
