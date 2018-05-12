@@ -18,6 +18,18 @@ const mailTransport = nodemailer.createTransport({
 
 const APP_NAME = 'Hotel ICONIA';
 
+// exports.syncBanquetName = functions.database.ref('/users/{userID}')
+// .onCreate((snapshot, context) => {
+// 	const dbdata = snapshot.val();
+//     console.log(dbdata.banquet);
+//     return snapshot.ref.parent.parent.child('banquet').child(dbdata.banquet).once("value").then(snap => {
+//         console.log(snap.val());
+//         var banquetName = snap.val().name;
+//         console.log(banquetName);
+//         return snapshot.ref.child('banquetName').set(banquetName);
+//     });
+// });
+
 exports.sendRegCfmEmail = functions.database.ref('/users/{userID}')
 .onCreate((snapshot, context) => {
 	const dbdata = snapshot.val();
@@ -25,14 +37,22 @@ exports.sendRegCfmEmail = functions.database.ref('/users/{userID}')
 	var userID = context.params.userID;
 	const email = dbdata.email; // The email of the user.
 	const displayName = dbdata.first_name + ' ' + dbdata.last_name.toUpperCase(); // The display name of the user.
-	return sendRegCfmEmail(email, displayName, dbdata);
+    return snapshot.ref.parent.parent.child('banquet').child(dbdata.banquet).once("value").then(snap => {
+        console.log(snap.val());
+        var banquetName = snap.val().name;
+        console.log(banquetName);
+        sendRegCfmEmail(email, displayName, dbdata, banquetName);
+        return snapshot.ref.child('banquetName').set(banquetName);
+    });
+    // return sendRegCfmEmail(email, displayName, dbdata);
 });
 
 exports.sendSeatEmail = functions.database.ref('/users/{userID}/seat')
-.onWrite(ev => {
-    const seat = ev.data.val();
+.onWrite((change, context) => {
+    console.log(context.params.userID);
+    const seat = change.after.val();
     console.log(seat);
-    return ev.data.ref.parent.once("value").then(snap => {
+    return change.after.ref.parent.once("value").then(snap => {
         const dbdata = snap.val();
         console.log(dbdata);
         var userID = dbdata.userID;
@@ -42,7 +62,7 @@ exports.sendSeatEmail = functions.database.ref('/users/{userID}/seat')
     });
 });
 
-function sendRegCfmEmail(email, displayName, dbdata) {
+function sendRegCfmEmail(email, displayName, dbdata, banquetName) {
 	// find corresponding banquet name
 	console.log(dbdata.banquet);
 	// admin.database().ref('/banquet/'+dbdata.banquet).once('value').then(function(snapshot) {
@@ -53,7 +73,7 @@ function sendRegCfmEmail(email, displayName, dbdata) {
 	};
 	mailOptions.subject = `Registration Confirmation from ${APP_NAME}!`;
 	var mailText = `Dear ${displayName || ''}, \n Thanks for your registration at ${APP_NAME}. \n Here is detailed information about your registration: \n\n`;
-	mailText += `Banquet Name: ${dbdata.banquetName || dbdata.banquet} \n`;
+	mailText += `Banquet Name: ${banquetName || dbdata.banquet} \n`;
 	mailText += `Your type: ${dbdata.type || ''} \n`;
 	mailText += `Your meal choice: ${dbdata.meal || ''} \n`;
 	mailText += `Your drink choice: ${dbdata.drink || ''} \n`;
@@ -69,16 +89,18 @@ function sendRegCfmEmail(email, displayName, dbdata) {
 
 function sendSeatEmail(email, displayName, dbdata, seat) {
 	// find corresponding banquet name
-	console.log(dbdata.banquet);
+    console.log(dbdata.banquet);
 	// admin.database().ref('/banquet/'+dbdata.banquet).once('value').then(function(snapshot) {
 	// var banquetName = snapshot.val().name;
 	const mailOptions = {
 		from: `${APP_NAME} <noreply@firebase.com>`,
 		to: email,
 	};
-	mailOptions.subject = `Seat confirmed at your banquet from ${APP_NAME}!`;
-	var mailText = `Dear ${displayName || ''}, \n Thanks for your registration at ${APP_NAME}. \n Here is detailed information about your registration: \n\n`;
-	mailText += `Banquet Name: ${dbdata.banquetName || dbdata.banquet} \n`;
+	mailOptions.subject = `Table confirmed at banquet ${dbdata.banquetName || dbdata.banquet} from ${APP_NAME}!`;
+	var mailText = `Dear ${displayName || ''}, \n Your table number if confirmed for the upcoming banquet ${dbdata.banquetName || dbdata.banquet}. \n Your table number is:`;
+    mailText += `${seat}\n\n`;
+    mailText += `More information about the upcoming banquet: \n`;
+    mailText += `Banquet Name: ${dbdata.banquetName || dbdata.banquet} \n`;
 	mailText += `Your type: ${dbdata.type || ''} \n`;
 	mailText += `Your meal choice: ${dbdata.meal || ''} \n`;
 	mailText += `Your drink choice: ${dbdata.drink || ''} \n`;
