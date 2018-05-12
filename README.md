@@ -43,9 +43,9 @@ Firebase deploy --only hosting
 
 ## Authors
 
-[Yiran CHENG](mailto:yiran.cheng@connect.polyu.hk)
-[Derek Mingyu MA](http://derek.ma)
-[Yufan ZHUANG](mailto:evan.zhuang@connect.polyu.hk)
+* [Yiran CHENG](mailto:yiran.cheng@connect.polyu.hk)
+* [Derek Mingyu MA](http://derek.ma)
+* [Yufan ZHUANG](mailto:evan.zhuang@connect.polyu.hk)
 
 This is an assignment for Spring 2018 COMP3421 Web Application Design and Development at Department of Computing of The Hong Kong Polytechnic University.
 
