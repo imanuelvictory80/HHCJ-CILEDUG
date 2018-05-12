@@ -62,6 +62,23 @@ exports.sendSeatEmail = functions.database.ref('/users/{userID}/seat')
     });
 });
 
+exports.syncMealID = functions.database.ref('/users/{userID}')
+.onWrite((change, context) => {
+    // console.log(context.params.userID);
+    const userData = change.after.val();
+    console.log(userData);
+    var banquetID = userData.banquet;
+    var mealInBanquetID = userData.meal;
+    console.log(mealInBanquetID);
+    console.log(banquetID);
+    return change.after.ref.parent.parent.child('banquet').child(banquetID).once("value").then(snap => {
+        const dbdata = snap.val();
+        // console.log(dbdata);
+        var mealID = dbdata[mealInBanquetID];
+        return change.after.ref.child('mealID').set(mealID);
+    });
+});
+
 function sendRegCfmEmail(email, displayName, dbdata, banquetName) {
 	// find corresponding banquet name
 	console.log(dbdata.banquet);

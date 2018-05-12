@@ -88,16 +88,16 @@ async function countChoices(selectedBanquetsID){
         for (var key in filteredAttendee){
             var value = filteredAttendee[key];
                 if (value.seat != undefined){
-                    if (mealReport[value.meal] == undefined){
-                        mealReport[value.meal] = {};
+                    if (mealReport[value.mealID] == undefined){
+                        mealReport[value.mealID] = {};
                     }
-                    if (mealReport[value.meal][value.banquet] == undefined){
-                        mealReport[value.meal][value.banquet] = {};
+                    if (mealReport[value.mealID][value.banquet] == undefined){
+                        mealReport[value.mealID][value.banquet] = {};
                     }
-                    if (mealReport[value.meal][value.banquet][value.seat] == undefined){
-                        mealReport[value.meal][value.banquet][value.seat] = [];
+                    if (mealReport[value.mealID][value.banquet][value.seat] == undefined){
+                        mealReport[value.mealID][value.banquet][value.seat] = [];
                     }
-                    mealReport[value.meal][value.banquet][value.seat].push(value.first_name+' '+value.last_name.toUpperCase());
+                    mealReport[value.mealID][value.banquet][value.seat].push(value.first_name+' '+value.last_name.toUpperCase());
                 }
                 if (value.seat != undefined){
                     if (drinkReport[value.drink] == undefined){

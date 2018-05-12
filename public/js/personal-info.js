@@ -1,15 +1,13 @@
-// Initialize Firebase
-var config = {
-	apiKey: "AIzaSyA7nsxerdiRCaYHMOi1ntCvv5GgAfqWd-s",
-	authDomain: "banquet-system.firebaseapp.com",
-	databaseURL: "https://banquet-system.firebaseio.com",
-	projectId: "banquet-system",
-	storageBucket: "banquet-system.appspot.com",
-	messagingSenderId: "78359664414"
-};
-firebase.initializeApp(config);
 // Get a reference to the database service
 var database = firebase.database();
+var userJSON;
+// var uid = GetQueryString('id');
+var url = new URL(window.location.href);
+var thisUserId = url.searchParams.get("id");
+database.ref("users/"+thisUserId).on("value",function(snapshot){
+	userJSON = readJSON(snapshot);
+	resetContent(thisUserId);
+});
 
 
 function GetQueryString(name)  
@@ -30,14 +28,8 @@ function readJSON(Snapshot){
     return tJson;
 }
 
-var userJSON;
-var uid = GetQueryString('id');
-database.ref("users/"+uid).on("value",function(snapshot){
-	userJSON = readJSON(snapshot);
-	resetContent();
-});
-
-function resetContent(){
+function resetContent(uid){
+    console.log(uid);
 	document.getElementById('dbid').value = uid;
 	document.getElementById('first-name').value = userJSON['first_name'];
 	document.getElementById('last-name').value = userJSON['last_name'];
@@ -80,7 +72,7 @@ function regSubmit(){
 	userInfo['meal'] = document.getElementById('meal').value;
 	userInfo['drink'] = document.getElementById('drink').value;
 	userInfo['remark'] = document.getElementById('remark').value;
-	updates['/users/' + uid] = userInfo;
+	updates['/users/' + thisUserId] = userInfo;
   	firebase.database().ref().update(updates);
 }
 
