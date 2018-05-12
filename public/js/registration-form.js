@@ -150,9 +150,10 @@ function checkP1(){
 function checkP2(){
 	var idlist = ["first-name","first-name","guest-type","ao","phone","email"];
 	var i;
-	//var reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
-	var reg = /^[A-Za-zd]+([-_.][A-Za-zd]+)*@([A-Za-zd]+[-.])+[A-Za-zd]{2,7}$/;
-	var tel = /^\d{8}$/;
+    // var reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
+    var reg = /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/;
+    // var reg = /^[A-Za-z0-9]+([-_.][A-Za-z0-9]+)*@([A-Za-z0-9]+)+[A-Za-z0-9]{2,7}$/;
+    var tel = /^\d{8}$/;
 	for(i=0;i<idlist.length;i++){
 		if (document.getElementById(idlist[i]).value == null || document.getElementById(idlist[i]).value == "") {
 			alert("Please fill all the fields to continue.");

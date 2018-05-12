@@ -1,21 +1,41 @@
-# banquet-system
+# Installation Guide
 
-Deployed site location: https://banquet-system.firebaseapp.com/
+> **Deployed version**: https://banquet-system.firebaseapp.com/<br>**Account for back-end access**: <br> Email: hotel.iconia@gmail.com; Password: doweb666
 
-1. Install Firebase CLI
-
-by Step 1 in the: https://firebase.google.com/docs/hosting/quickstart
-
-2. Local testing
+#### 1- Install `Node.js` and `npm`
 
 ```
-firebase serve <--only hosting>
+# Set up Node.js
+curl -sL https://deb.nodesource.com/setup_6.x -o nodesource_setup.sh
+sudo bash nodesource_setup.sh
+sudo apt-get install nodejs
+sudo apt-get install build-essential
 ```
 
-content in `<` and `>` is optional
-
-3. Deploy on line
+#### 2- Install Firebase CLI and Login
 
 ```
-Firebase deploy <--only hosting>
+npm install -g firebase-tools
+firebase login
 ```
+
+#### 3- Local testing
+
+Under the root directory of this project, type following code in the terminal.
+
+```
+firebase serve --only hosting
+```
+
+Then open the `localhost:5000` in the browser to test the local running version.
+
+#### 4- (Optional) Deploy on-line
+
+> Important Notes: this operation will **wipe out** the deployed online version, do not deploy when you are testing.
+
+```
+Firebase deploy --only hosting
+```
+
+
+

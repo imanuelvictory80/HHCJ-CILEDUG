@@ -77,41 +77,70 @@ async function filterAttendeeByBanquet(attendee, selectedBanquetsID){
     // });
 }
 
-async function countChoices(selectedBanquetsID){
+function countChoices(selectedBanquetsID){
     var database = firebase.database();
-    database.ref('users').on('value', function(snapshot) {
-        var attendee = snapshot.val();
-        var mealReport = {};
-        var drinkReport = {};
-        // var filteredAttendee = await filterAttendeeByBanquet(attendee, selectedBanquetsID);
-        var filteredAttendee = attendee;
-        for (var key in filteredAttendee){
-            var value = filteredAttendee[key];
-                if (value.seat != undefined){
-                    if (mealReport[value.mealID] == undefined){
-                        mealReport[value.mealID] = {};
-                    }
-                    if (mealReport[value.mealID][value.banquet] == undefined){
-                        mealReport[value.mealID][value.banquet] = {};
-                    }
-                    if (mealReport[value.mealID][value.banquet][value.seat] == undefined){
-                        mealReport[value.mealID][value.banquet][value.seat] = [];
-                    }
-                    mealReport[value.mealID][value.banquet][value.seat].push(value.first_name+' '+value.last_name.toUpperCase());
+    var mealReport = {};
+    var drinkReport = {};
+    database.ref('users').once('value', function(snapshot) {
+        snapshot.forEach(function(childSnapshot) {
+            var value = childSnapshot.val();
+            if (value.seat != undefined){
+                if (mealReport[value.mealID] == undefined){
+                    mealReport[value.mealID] = {};
                 }
-                if (value.seat != undefined){
-                    if (drinkReport[value.drink] == undefined){
-                        drinkReport[value.drink] = {};
-                    }
-                    if (drinkReport[value.drink][value.banquet] == undefined){
-                        drinkReport[value.drink][value.banquet] = {};
-                    }
-                    if (drinkReport[value.drink][value.banquet][value.seat] == undefined){
-                        drinkReport[value.drink][value.banquet][value.seat] = [];
-                    }
-                    drinkReport[value.drink][value.banquet][value.seat].push(value.first_name+' '+value.last_name.toUpperCase());
+                if (mealReport[value.mealID][value.banquet] == undefined){
+                    mealReport[value.mealID][value.banquet] = {};
                 }
-        }
+                if (mealReport[value.mealID][value.banquet][value.seat] == undefined){
+                    mealReport[value.mealID][value.banquet][value.seat] = [];
+                }
+                mealReport[value.mealID][value.banquet][value.seat].push(value.first_name+' '+value.last_name.toUpperCase());
+            }
+            if (value.seat != undefined){
+                if (drinkReport[value.drink] == undefined){
+                    drinkReport[value.drink] = {};
+                }
+                if (drinkReport[value.drink][value.banquet] == undefined){
+                    drinkReport[value.drink][value.banquet] = {};
+                }
+                if (drinkReport[value.drink][value.banquet][value.seat] == undefined){
+                    drinkReport[value.drink][value.banquet][value.seat] = [];
+                }
+                drinkReport[value.drink][value.banquet][value.seat].push(value.first_name+' '+value.last_name.toUpperCase());
+            }
+        });
+        // var attendee = snapshot.val();
+        // console.log(attendee);
+        // // var filteredAttendee = await filterAttendeeByBanquet(attendee, selectedBanquetsID);
+        // var filteredAttendee = attendee;
+        // for (var key in filteredAttendee){
+        //     var value = filteredAttendee[key];
+        //     console.log(mealReport);
+        //     if (value.seat != undefined){
+        //         if (mealReport[value.mealID] == undefined){
+        //             mealReport[value.mealID] = {};
+        //         }
+        //         if (mealReport[value.mealID][value.banquet] == undefined){
+        //             mealReport[value.mealID][value.banquet] = {};
+        //         }
+        //         if (mealReport[value.mealID][value.banquet][value.seat] == undefined){
+        //             mealReport[value.mealID][value.banquet][value.seat] = [];
+        //         }
+        //         mealReport[value.mealID][value.banquet][value.seat].push(value.first_name+' '+value.last_name.toUpperCase());
+        //     }
+        //     if (value.seat != undefined){
+        //         if (drinkReport[value.drink] == undefined){
+        //             drinkReport[value.drink] = {};
+        //         }
+        //         if (drinkReport[value.drink][value.banquet] == undefined){
+        //             drinkReport[value.drink][value.banquet] = {};
+        //         }
+        //         if (drinkReport[value.drink][value.banquet][value.seat] == undefined){
+        //             drinkReport[value.drink][value.banquet][value.seat] = [];
+        //         }
+        //         drinkReport[value.drink][value.banquet][value.seat].push(value.first_name+' '+value.last_name.toUpperCase());
+        //     }
+        // }
         // console.log(mealReport);
         // console.log(drinkReport);
         postFilter(mealReport, drinkReport, selectedBanquetsID);
