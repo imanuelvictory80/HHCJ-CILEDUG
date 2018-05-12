@@ -20,20 +20,10 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
-
-    <!-- Firebase -->
-    <!-- update the version number as needed -->
-    <script defer src="/__/firebase/4.11.0/firebase-app.js"></script>
-    <!-- include only the Firebase features as you need -->
-    <script defer src="/__/firebase/4.11.0/firebase-auth.js"></script>
-    <script defer src="/__/firebase/4.11.0/firebase-database.js"></script>
-    <script defer src="/__/firebase/4.11.0/firebase-messaging.js"></script>
-    <script defer src="/__/firebase/4.11.0/firebase-storage.js"></script>
-    <!-- initialize the SDK after all desired features are loaded -->
-    <script defer src="/__/firebase/init.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/4.11.0/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
 
     <script type="text/javascript" src ="js/main.js"></script>
+    <script language="javascript" src ="js/auth.js"></script>
     <script type="text/javascript" src ="index.js"></script>
     <script type="text/javascript" src ="js/banquet-form.js"></script>
     <script type="text/javascript" src ="js/bootstrap-datetimepicker.min.js"></script>
@@ -56,7 +46,7 @@
     <script type="text/javascript">headBar();</script>
     <br/>
     <div class="container" id="form-container">
-        <form id="create-banquet" method="GET" onsubmit="dbCreateBanquet();">
+        <!-- <form id="create-banquet" method="GET" onsubmit="dbCreateBanquet();"> -->
 
         <!-- ====== ROW2: Personal information ====== -->
 
@@ -159,10 +149,10 @@
 
         <div class="row row0">
             <!-- <button type="submit" id="submit-btn" class="btn btn-secondary next-btn" onclick="javascript: window.onbeforeunload = null;">Submit</button> -->
-            <button type="submit" id="submit-btn" class="btn btn-secondary next-btn">Submit</button>
+            <button type="button" id="submit-btn" class="btn btn-secondary next-btn" onclick="dbCreateBanquet();">Submit</button>
         </div>
 
-        </form>
+        <!-- </form> -->
     </div>
 
     <br/>
