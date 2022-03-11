@@ -1,4 +1,4 @@
-// Initialize Firebase
+//Initialize Firebase
 var config = {
 	apiKey: "AIzaSyA7nsxerdiRCaYHMOi1ntCvv5GgAfqWd-s",
 	authDomain: "banquet-system.firebaseapp.com",
@@ -8,6 +8,7 @@ var config = {
 	messagingSenderId: "78359664414"
 };
 firebase.initializeApp(config);
+db = firebase.database();
 
 var displayName;
 var adminEmail='';

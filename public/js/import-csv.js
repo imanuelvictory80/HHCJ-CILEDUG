@@ -1,13 +1,3 @@
-// Initialize Firebase
-var config = {
-	apiKey: "AIzaSyA7nsxerdiRCaYHMOi1ntCvv5GgAfqWd-s",
-	authDomain: "banquet-system.firebaseapp.com",
-	databaseURL: "https://banquet-system.firebaseio.com",
-	projectId: "banquet-system",
-	storageBucket: "banquet-system.appspot.com",
-	messagingSenderId: "78359664414"
-};
-firebase.initializeApp(config);
 // Get a reference to the database service
 var database = firebase.database();
 
